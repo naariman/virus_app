@@ -10,10 +10,20 @@
 
 import UIKit
 
-final class DataCollectionViewController: UIViewController, DataCollectionViewProtocol {
+final class DataCollectionViewController: UIViewController,
+                                          DataCollectionViewProtocol {
+    
 	var presenter: DataCollectionPresenterProtocol?
 
 	override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+}
+
+// MARK: - Setup UI
+extension DataCollectionViewController {
+    func setupUI() {
+        view.backgroundColor = .white
     }
 }
