@@ -10,18 +10,128 @@
 
 import UIKit
 
-final class DashboardViewController: UIViewController, 
-                                     DashboardViewProtocol {
+final class DashboardViewController: UIViewController {
 	var presenter: DashboardPresenterProtocol?
-
+    private let emptyTopView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
+    private let statisticsView: DashboardStatisticsView = .init()
+    private let playView: PlayView = .init()
+//    private let zoomButtonsView:
+    lazy private var collectionView: UICollectionView = {
+        let layout: UICollectionViewFlowLayout = .init()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout
+        
+        )
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
+        layout.itemSize = CGSize(width: 32, height: 32)
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(GeneralCell.self)
+        return collectionView
+    }()
+    
 	override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.viewDidLoad()
         setupUI()
+    }
+    
+    func configureStatisticsView(with model: EpidemicOverallStatistic) {
+        statisticsView.configure(with: model)
     }
 }
 
 private extension DashboardViewController {
     func setupUI() {
-        view.backgroundColor = .white
+        view.backgroundColor = .dashboardBackground
+        view.addSubviews(
+            emptyTopView,
+            statisticsView,
+            playView,
+            collectionView
+        )
+        
+        emptyTopView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.top)
+        }
+        
+        statisticsView.snp.makeConstraints { make in
+            make.top.equalTo(emptyTopView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(60)
+        }
+        playView.snp.makeConstraints { make in
+            make.height.equalTo(180)
+            make.bottom.equalToSuperview()
+            make.leading.trailing.equalToSuperview()
+        }
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(statisticsView.snp.bottom).offset(8)
+            make.bottom.equalTo(playView.snp.top).offset(-8)
+            make.leading.trailing.equalToSuperview().inset(8)
+        }
     }
+}
+
+extension DashboardViewController: DashboardViewProtocol {
+    func update() {
+        collectionView.reloadData()
+    }
+}
+
+// MARK: - UICollectionViewDataSource
+extension DashboardViewController: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        presenter?.entities.count ?? 0
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let presenter else { return UICollectionViewCell() }
+        let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+        cell.configure(entity: presenter.entities[indexPath.row])
+        return cell
+    }
+    
+    
+}
+
+// MARK: - UICollectionViewDelegate
+extension DashboardViewController: UICollectionViewDelegate {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        presenter?.entities[indexPath.row].type = .infected
+    }
+
+}
+
+// MARK: - UICollectionViewFlowLayoutDelegate
+extension DashboardViewController: UICollectionViewDelegateFlowLayout {
+//    func collectionView(
+//        _ collectionView: UICollectionView,
+//        layout collectionViewLayout: UICollectionViewLayout,
+//        sizeForItemAt indexPath: IndexPath
+//    ) -> CGSize {
+//        let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+//        
+//    }
 }

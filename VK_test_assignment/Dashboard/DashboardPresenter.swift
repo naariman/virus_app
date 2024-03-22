@@ -14,17 +14,28 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     weak private var view: DashboardViewProtocol?
     var interactor: DashboardInteractorProtocol?
     private let router: DashboardWireframeProtocol
-    private let epidemiologicalSpreadModel: EpidemiologicalSpreadModel
+    private let epidemiologicalSpreadModel: UserInputModel
+    var entities: [EntityViewModel] = EntityViewModel.mockData {
+        didSet {
+            view?.update()
+        }
+    }
+    var epidemicOverallStatistic: EpidemicOverallStatistic
     
     init(
         interface: DashboardViewProtocol,
         interactor: DashboardInteractorProtocol?,
         router: DashboardWireframeProtocol,
-        model: EpidemiologicalSpreadModel
+        model: UserInputModel
     ) {
         self.view = interface
         self.interactor = interactor
         self.router = router
         self.epidemiologicalSpreadModel = model
+        epidemicOverallStatistic = .init(uninfectedCount: model.groupSize)
+    }
+    
+    func viewDidLoad() {
+        view?.configureStatisticsView(with: epidemicOverallStatistic)
     }
 }

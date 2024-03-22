@@ -14,18 +14,19 @@ final class DataCollectionViewController: UIViewController,
                                           DataCollectionViewProtocol {
     
     private struct Constants {
-        static let titleText = "Симулятор распространения вируса 🦠"
+        static let virusImage = AppImage.virusThree.uiImage
         static let groupSizeTitle = "Количество людей"
         static let infectionFactorTitle = "Коэффициент заражаемости"
         static let recalculationInfectedTitle = "Период пересчета"
         static let continueButtonTitle = "Запустить моделирование"
     }
     
-    private let titleLabel: VKLabel = .init(
-        text: Constants.titleText,
-        font: .systemFont(ofSize: 24, weight: .bold),
-        textAlignment: .center
-    )
+    private let virusImageView: UIImageView = {
+       let imageView = UIImageView()
+        imageView.image = Constants.virusImage
+        imageView.clipsToBounds = false
+        return imageView
+    }()
     
     private let textFieldsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -59,6 +60,7 @@ final class DataCollectionViewController: UIViewController,
 	override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        configureData()
         addObserversKeyboardAppears()
     }
     
@@ -83,18 +85,19 @@ extension DataCollectionViewController {
         continueButton.disable()
         
         view.addSubviews(
-            titleLabel,
+            virusImageView,
             textFieldsStackView,
             continueButton
         )
         
-        titleLabel.snp.makeConstraints { make in
+        virusImageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.centerX.equalToSuperview()
+            make.size.equalTo(100)
         }
         
         textFieldsStackView.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(32)
+            make.top.equalTo(virusImageView.snp.bottom).offset(32)
             make.leading.trailing.equalToSuperview()
         }
         
@@ -109,6 +112,10 @@ extension DataCollectionViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(48)
         }
+    }
+    
+    func configureData() {
+        Animations.rotateViewWithPulse(virusImageView)
         continueButton.addTarget(
             self,
             action: #selector(continueDidTap),

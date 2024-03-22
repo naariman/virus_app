@@ -12,7 +12,7 @@ import Foundation
 
 //MARK: Wireframe -
 protocol DataCollectionWireframeProtocol: AnyObject {
-    func routeToDashboard(with model: EpidemiologicalSpreadModel)
+    func routeToDashboard(with model: UserInputModel)
 }
 //MARK: Presenter -
 protocol DataCollectionPresenterProtocol: AnyObject {

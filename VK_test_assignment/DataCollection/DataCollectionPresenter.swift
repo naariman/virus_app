@@ -37,7 +37,7 @@ extension DataCollectionPresenter: DataCollectionPresenterProtocol {
               let infectionFactor,
               let recalculationInfected else { return }
         
-        let model: EpidemiologicalSpreadModel = .init(
+        let model: UserInputModel = .init(
             groupSize: groupSize,
             infectionFactor: infectionFactor,
             recalculationInfected: recalculationInfected

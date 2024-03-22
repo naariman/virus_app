@@ -19,6 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         let window = UIWindow(windowScene: windowScene)
         window.rootViewController = UINavigationController(
+//            rootViewController: DashboardRouter.createModule(with: .init(groupSize: 11, infectionFactor: 22, recalculationInfected: 11))
             rootViewController: DataCollectionRouter.createModule()
         )
         window.makeKeyAndVisible()
