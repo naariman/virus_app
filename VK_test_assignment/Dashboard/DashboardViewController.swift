@@ -10,10 +10,18 @@
 
 import UIKit
 
-final class DashboardViewController: UIViewController, DashboardViewProtocol {
+final class DashboardViewController: UIViewController, 
+                                     DashboardViewProtocol {
 	var presenter: DashboardPresenterProtocol?
 
 	override func viewDidLoad() {
         super.viewDidLoad()
+        setupUI()
+    }
+}
+
+private extension DashboardViewController {
+    func setupUI() {
+        view.backgroundColor = .white
     }
 }

@@ -109,6 +109,11 @@ extension DataCollectionViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(48)
         }
+        continueButton.addTarget(
+            self,
+            action: #selector(continueDidTap),
+            for: .touchUpInside
+        )
         setupTextFields()
     }
     
@@ -124,8 +129,6 @@ extension DataCollectionViewController {
         }
     }
 }
-
-// MARK: - TextField's update
 
 // MARK: - Keyboard appears process
 private extension DataCollectionViewController {
@@ -160,5 +163,13 @@ private extension DataCollectionViewController {
             }
             self.view.layoutIfNeeded()
         }
+    }
+}
+
+// MARK: - Action's
+private extension DataCollectionViewController {
+    @objc
+    func continueDidTap() {
+        presenter?.continueDidTap()
     }
 }

@@ -10,7 +10,7 @@
 
 import UIKit
 
-final class DataCollectionRouter: DataCollectionWireframeProtocol {
+final class DataCollectionRouter {
     weak var viewController: UIViewController?
     
     static func createModule() -> UIViewController {
@@ -25,5 +25,12 @@ final class DataCollectionRouter: DataCollectionWireframeProtocol {
         router.viewController = view
         
         return view
+    }
+}
+
+extension DataCollectionRouter: DataCollectionWireframeProtocol {
+    func routeToDashboard(with model: EpidemiologicalSpreadModel) {
+        let vc = DashboardRouter.createModule(with: model)
+        UIHelper.setRoot(vc)
     }
 }

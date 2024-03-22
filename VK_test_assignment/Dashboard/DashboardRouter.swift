@@ -13,12 +13,19 @@ import UIKit
 final class DashboardRouter: DashboardWireframeProtocol {
     weak var viewController: UIViewController?
     
-    static func createModule() -> UIViewController {
+    static func createModule(
+        with model: EpidemiologicalSpreadModel
+    ) -> UIViewController {
         // Change to get view from storyboard if not using progammatic UI
         let view = DashboardViewController()
         let interactor = DashboardInteractor()
         let router = DashboardRouter()
-        let presenter = DashboardPresenter(interface: view, interactor: interactor, router: router)
+        let presenter = DashboardPresenter(
+            interface: view,
+            interactor: interactor,
+            router: router,
+            model: model
+        )
         
         view.presenter = presenter
         interactor.presenter = presenter

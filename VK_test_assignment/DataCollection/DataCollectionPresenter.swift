@@ -31,6 +31,21 @@ final class DataCollectionPresenter {
 }
 
 extension DataCollectionPresenter: DataCollectionPresenterProtocol {
+    
+    func continueDidTap() {
+        guard let groupSize, 
+              let infectionFactor,
+              let recalculationInfected else { return }
+        
+        let model: EpidemiologicalSpreadModel = .init(
+            groupSize: groupSize,
+            infectionFactor: infectionFactor,
+            recalculationInfected: recalculationInfected
+        )
+        
+        router.routeToDashboard(with: model)
+    }
+    
     func updateGroupSizeTextFieldView(with text: String) {
         groupSize = Int(text)
         observeFieldsCondition()
