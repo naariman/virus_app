@@ -42,6 +42,10 @@ final class ImageWithTextHorizontal: UIView {
         imageView.image = image
         textLabel.text = text
     }
+    
+    func updateText(with text: String) {
+        textLabel.text = text
+    }
 }
 
 private extension ImageWithTextHorizontal {

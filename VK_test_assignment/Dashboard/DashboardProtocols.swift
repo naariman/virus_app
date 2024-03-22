@@ -17,6 +17,7 @@ protocol DashboardWireframeProtocol: AnyObject {
 protocol DashboardPresenterProtocol: AnyObject {
     func viewDidLoad()
     var entities: [EntityViewModel] { get set }
+    var epidemicOverallStatistic: EpidemicOverallStatistic { get set }
 }
 
 //MARK: Interactor -
@@ -27,5 +28,6 @@ protocol DashboardInteractorProtocol: AnyObject {
 //MARK: View -
 protocol DashboardViewProtocol: AnyObject {
     var presenter: DashboardPresenterProtocol?  { get set }
-    func configure(with model: EpidemiologicalSpreadModel)
+    func configureStatisticsView(with model: EpidemicOverallStatistic)
+    func update()
 }

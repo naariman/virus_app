@@ -52,8 +52,8 @@ private extension PlayView {
         layer.borderColor = UIColor.txt.cgColor
         addSubviews(virusImageView)
         virusImageView.snp.makeConstraints { make in
+            make.top.equalTo(8)
             make.leading.equalTo(54)
-            make.centerY.equalTo(self.snp.top)
             make.size.equalTo(64)
         }
     }

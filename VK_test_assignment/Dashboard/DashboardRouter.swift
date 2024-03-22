@@ -14,7 +14,7 @@ final class DashboardRouter: DashboardWireframeProtocol {
     weak var viewController: UIViewController?
     
     static func createModule(
-        with model: EpidemiologicalSpreadModel
+        with model: UserInputModel
     ) -> UIViewController {
         // Change to get view from storyboard if not using progammatic UI
         let view = DashboardViewController()

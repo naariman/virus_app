@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct EpidemiologicalSpreadModel {
+struct UserInputModel {
     let groupSize: Int
     let infectionFactor: Int
     let recalculationInfected: Int

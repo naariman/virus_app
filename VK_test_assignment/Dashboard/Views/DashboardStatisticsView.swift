@@ -17,7 +17,7 @@ final class DashboardStatisticsView: VKView {
     
     private let groupSizeView: ImageWithTextHorizontal = .init()
     private let infectionFactorView: ImageWithTextHorizontal = .init()
-    private let recalculationInfectedView: ImageWithTextHorizontal = .init()
+    private let timerView: ImageWithTextHorizontal = .init()
     
     private let mainStackView: UIStackView = {
         let stackView = UIStackView()
@@ -47,18 +47,18 @@ final class DashboardStatisticsView: VKView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(with model: EpidemiologicalSpreadModel) {
+    func configure(with model: EpidemicOverallStatistic) {
         groupSizeView.configure(
             image: Constants.groupSizeViewImage ?? UIImage(),
-            text: model.groupSize.description
+            text: model.uninfectedCount.description
         )
         infectionFactorView.configure(
             image: Constants.infectionFactorViewImage ?? UIImage(),
-            text: model.infectionFactor.description
+            text: model.infectedCount.description
         )
-        recalculationInfectedView.configure(
+        timerView.configure(
             image: Constants.recalculationInfectedViewImage ?? UIImage(),
-            text: model.recalculationInfected.description
+            text: "00:00"
         )
     }
 }
@@ -66,11 +66,6 @@ final class DashboardStatisticsView: VKView {
 private extension DashboardStatisticsView {
     
     func setupUI() {
-        clipsToBounds = false
-        layer.shadowColor = UIColor.txt.cgColor
-        layer.shadowOpacity = 0.5
-        layer.shadowOffset = CGSize(width: 0, height: 5)
-        layer.shadowRadius = 10
         addSubviews(mainStackView)
         backgroundColor = .white
         mainStackView.snp.makeConstraints { make in
@@ -81,7 +76,7 @@ private extension DashboardStatisticsView {
         mainStackView.addArrangedSubviews(
             groupSizeView,
             infectionFactorView,
-            recalculationInfectedView
+            timerView
         )
     }
 }

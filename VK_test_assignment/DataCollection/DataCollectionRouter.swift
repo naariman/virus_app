@@ -29,7 +29,7 @@ final class DataCollectionRouter {
 }
 
 extension DataCollectionRouter: DataCollectionWireframeProtocol {
-    func routeToDashboard(with model: EpidemiologicalSpreadModel) {
+    func routeToDashboard(with model: UserInputModel) {
         let vc = DashboardRouter.createModule(with: model)
         UIHelper.setRoot(vc)
     }
