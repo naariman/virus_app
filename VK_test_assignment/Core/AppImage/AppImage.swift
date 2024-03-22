@@ -35,4 +35,5 @@ public enum AppImage: String,
     case play
     case stop
     case virus
+    case virusThree
 }

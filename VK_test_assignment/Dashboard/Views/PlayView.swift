@@ -57,7 +57,7 @@ private extension PlayView {
             make.centerY.equalTo(self.snp.top)
             make.size.equalTo(48)
         }
-        Animations.rotateViewWithPulse(virusImageView)
+//        Animations.rotateViewWithPulse(virusImageView)
     }
     
     func configureData() {
