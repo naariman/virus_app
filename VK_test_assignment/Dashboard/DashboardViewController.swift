@@ -14,6 +14,8 @@ final class DashboardViewController: UIViewController,
                                      DashboardViewProtocol {
 	var presenter: DashboardPresenterProtocol?
     private var statisticsView: DashboardStatisticsView = .init()
+    private var playView: PlayView = .init()
+    
 	override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.viewDidLoad()
@@ -28,9 +30,15 @@ final class DashboardViewController: UIViewController,
 private extension DashboardViewController {
     func setupUI() {
         view.backgroundColor = .white
-        view.addSubviews(statisticsView)
+        view.addSubviews(statisticsView, playView)
+        
         statisticsView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalToSuperview()
+        }
+        playView.snp.makeConstraints { make in
+            make.height.equalTo(220)
+            make.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
     }

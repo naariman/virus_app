@@ -32,4 +32,7 @@ public enum AppImage: String,
     case zombie
     case human
     case time
+    case play
+    case stop
+    case virus
 }

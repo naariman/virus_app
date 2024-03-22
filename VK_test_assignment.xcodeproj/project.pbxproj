@@ -35,6 +35,8 @@
 		9E4629212BADC84200E0F98B /* DashboardStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629202BADC84200E0F98B /* DashboardStatisticsView.swift */; };
 		9E4629242BADC98D00E0F98B /* AppImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629232BADC98D00E0F98B /* AppImage.swift */; };
 		9E4629262BADCF4400E0F98B /* VKImageWithText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629252BADCF4400E0F98B /* VKImageWithText.swift */; };
+		9E4629282BADE33400E0F98B /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629272BADE33400E0F98B /* PlayView.swift */; };
+		9E46292B2BADF27600E0F98B /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46292A2BADF27600E0F98B /* Animations.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +68,8 @@
 		9E4629202BADC84200E0F98B /* DashboardStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardStatisticsView.swift; sourceTree = "<group>"; };
 		9E4629232BADC98D00E0F98B /* AppImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImage.swift; sourceTree = "<group>"; };
 		9E4629252BADCF4400E0F98B /* VKImageWithText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKImageWithText.swift; sourceTree = "<group>"; };
+		9E4629272BADE33400E0F98B /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
+		9E46292A2BADF27600E0F98B /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +161,7 @@
 		9E4628FF2BAD80D400E0F98B /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				9E4629292BADF26A00E0F98B /* Animations */,
 				9E4629222BADC98200E0F98B /* AppImage */,
 				9E46291C2BADBFDA00E0F98B /* Helper */,
 				9E4629002BAD80DD00E0F98B /* Extensions */,
@@ -207,6 +212,7 @@
 			isa = PBXGroup;
 			children = (
 				9E4629202BADC84200E0F98B /* DashboardStatisticsView.swift */,
+				9E4629272BADE33400E0F98B /* PlayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -217,6 +223,14 @@
 				9E4629232BADC98D00E0F98B /* AppImage.swift */,
 			);
 			path = AppImage;
+			sourceTree = "<group>";
+		};
+		9E4629292BADF26A00E0F98B /* Animations */ = {
+			isa = PBXGroup;
+			children = (
+				9E46292A2BADF27600E0F98B /* Animations.swift */,
+			);
+			path = Animations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -314,7 +328,9 @@
 				9E46290F2BAD8DAD00E0F98B /* UIView+Extension.swift in Sources */,
 				9E4629162BAD92F700E0F98B /* UIStackView+Extension.swift in Sources */,
 				9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */,
+				9E4629282BADE33400E0F98B /* PlayView.swift in Sources */,
 				9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */,
+				9E46292B2BADF27600E0F98B /* Animations.swift in Sources */,
 				9E4628FC2BAD7C6000E0F98B /* DashboardViewController.swift in Sources */,
 				9E4628F02BAD7C5800E0F98B /* DataCollectionPresenter.swift in Sources */,
 				9E4628D62BAD7BE700E0F98B /* SceneDelegate.swift in Sources */,
