@@ -13,11 +13,66 @@ import UIKit
 final class DataCollectionViewController: UIViewController,
                                           DataCollectionViewProtocol {
     
+    private struct Constants {
+        static let titleText = "Симулятор распространения вируса 🦠"
+        static let groupSizeTitle = "Количество людей"
+        static let infectionFactorTitle = "Коэффициент заражаемости"
+        static let recalculationInfectedTitle = "Период пересчета"
+        static let continueButtonTitle = "Запустить моделирование"
+    }
+    
+    private let titleLabel: VKLabel = .init(
+        text: Constants.titleText,
+        font: .systemFont(ofSize: 24, weight: .bold),
+        textAlignment: .center
+    )
+    
+    private let textFieldsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 16
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    private let groupSizeTextFieldView: VKTextField = .init(
+        title: Constants.groupSizeTitle,
+        keyboardType: .numberPad
+    )
+    private let infectionFactorTextFieldView: VKTextField = .init(
+        title: Constants.infectionFactorTitle,
+        keyboardType: .numberPad
+    )
+    private let recalculationInfectedTextFieldView: VKTextField = .init(
+        title: Constants.recalculationInfectedTitle,
+        keyboardType: .numberPad
+    )
+    
+    var continueButton: VKButton = .init(
+        title: Constants.continueButtonTitle,
+        titleColor: .white,
+        backgroundColor: .main
+    )
+    
 	var presenter: DataCollectionPresenterProtocol?
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        addObserversKeyboardAppears()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 }
 
@@ -25,5 +80,96 @@ final class DataCollectionViewController: UIViewController,
 extension DataCollectionViewController {
     func setupUI() {
         view.backgroundColor = .white
+        continueButton.disable()
+        
+        view.addSubviews(
+            titleLabel,
+            textFieldsStackView,
+            continueButton
+        )
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
+        textFieldsStackView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(32)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        textFieldsStackView.addArrangedSubviews(
+            groupSizeTextFieldView,
+            infectionFactorTextFieldView,
+            recalculationInfectedTextFieldView
+        )
+        
+        continueButton.snp.makeConstraints { make in
+            make.bottom.equalTo(-32)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(48)
+        }
+        continueButton.addTarget(
+            self,
+            action: #selector(continueDidTap),
+            for: .touchUpInside
+        )
+        setupTextFields()
+    }
+    
+    func setupTextFields() {
+        groupSizeTextFieldView.textFieldTextChanged = { [weak self] text in
+            self?.presenter?.updateGroupSizeTextFieldView(with: text)
+        } 
+        infectionFactorTextFieldView.textFieldTextChanged = { [weak self] text in
+            self?.presenter?.updateInfectionFactorText(with: text)
+        }
+        recalculationInfectedTextFieldView.textFieldTextChanged = { [weak self] text in
+            self?.presenter?.updateRecalculationInfected(with: text)
+        }
+    }
+}
+
+// MARK: - Keyboard appears process
+private extension DataCollectionViewController {
+    func addObserversKeyboardAppears() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(
+        notification: NSNotification
+    ) {
+        if let userInfo = notification.userInfo,
+           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            
+            let keyboardSize = keyboardFrame.cgRectValue.size
+            let keyboardHeight = keyboardSize.height
+            
+            UIView.animate(withDuration: 0.3) {
+                self.continueButton.snp.updateConstraints { make in
+                    make.bottom.equalTo(-keyboardHeight - 8)
+                }
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            self.continueButton.snp.updateConstraints { make in
+                make.bottom.equalTo(-32)
+            }
+            self.view.layoutIfNeeded()
+        }
+    }
+}
+
+// MARK: - Action's
+private extension DataCollectionViewController {
+    @objc
+    func continueDidTap() {
+        presenter?.continueDidTap()
     }
 }

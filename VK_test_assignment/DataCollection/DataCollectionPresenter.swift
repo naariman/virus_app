@@ -10,14 +10,67 @@
 
 import UIKit
 
-final class DataCollectionPresenter: DataCollectionPresenterProtocol {
+final class DataCollectionPresenter {
     weak private var view: DataCollectionViewProtocol?
     var interactor: DataCollectionInteractorProtocol?
     private let router: DataCollectionWireframeProtocol
 
-    init(interface: DataCollectionViewProtocol, interactor: DataCollectionInteractorProtocol?, router: DataCollectionWireframeProtocol) {
+    private var groupSize: Int?
+    private var infectionFactor: Int?
+    private var recalculationInfected: Int?
+    
+    init(
+        interface: DataCollectionViewProtocol,
+        interactor: DataCollectionInteractorProtocol?,
+        router: DataCollectionWireframeProtocol
+    ) {
         self.view = interface
         self.interactor = interactor
         self.router = router
+    }
+}
+
+extension DataCollectionPresenter: DataCollectionPresenterProtocol {
+    
+    func continueDidTap() {
+        guard let groupSize, 
+              let infectionFactor,
+              let recalculationInfected else { return }
+        
+        let model: EpidemiologicalSpreadModel = .init(
+            groupSize: groupSize,
+            infectionFactor: infectionFactor,
+            recalculationInfected: recalculationInfected
+        )
+        
+        router.routeToDashboard(with: model)
+    }
+    
+    func updateGroupSizeTextFieldView(with text: String) {
+        groupSize = Int(text)
+        observeFieldsCondition()
+    }
+    
+    func updateInfectionFactorText(with text: String) {
+        infectionFactor = Int(text)
+        observeFieldsCondition()
+    }
+    
+    func updateRecalculationInfected(with text: String) {
+        recalculationInfected = Int(text)
+        observeFieldsCondition()
+    }
+}
+
+private extension DataCollectionPresenter {
+    func observeFieldsCondition() {
+        if groupSize != nil,
+           infectionFactor != nil,
+           recalculationInfected != nil
+        {
+            view?.continueButton.enable()
+        } else {
+            view?.continueButton.disable()
+        }
     }
 }

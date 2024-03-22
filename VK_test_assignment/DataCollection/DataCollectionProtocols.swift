@@ -12,11 +12,14 @@ import Foundation
 
 //MARK: Wireframe -
 protocol DataCollectionWireframeProtocol: AnyObject {
-
+    func routeToDashboard(with model: EpidemiologicalSpreadModel)
 }
 //MARK: Presenter -
 protocol DataCollectionPresenterProtocol: AnyObject {
-
+    func updateGroupSizeTextFieldView(with text: String)
+    func updateInfectionFactorText(with text: String)
+    func updateRecalculationInfected(with text: String)
+    func continueDidTap()
 }
 
 //MARK: Interactor -
@@ -26,5 +29,6 @@ protocol DataCollectionInteractorProtocol: AnyObject {
 
 //MARK: View -
 protocol DataCollectionViewProtocol: AnyObject {
-  var presenter: DataCollectionPresenterProtocol?  { get set }
+    var presenter: DataCollectionPresenterProtocol?  { get set }
+    var continueButton: VKButton { get set }
 }
