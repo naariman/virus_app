@@ -24,6 +24,9 @@
 		9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629022BAD815A00E0F98B /* VKTextField.swift */; };
 		9E4629052BAD858200E0F98B /* BasicFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629042BAD858200E0F98B /* BasicFont.swift */; };
 		9E4629072BAD859A00E0F98B /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629062BAD859A00E0F98B /* UIFont+Extension.swift */; };
+		9E4629092BAD8A5400E0F98B /* VKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629082BAD8A5400E0F98B /* VKLabel.swift */; };
+		9E46290B2BAD8B4800E0F98B /* VKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46290A2BAD8B4800E0F98B /* VKView.swift */; };
+		9E46290D2BAD8BED00E0F98B /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +49,9 @@
 		9E4629022BAD815A00E0F98B /* VKTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKTextField.swift; sourceTree = "<group>"; };
 		9E4629042BAD858200E0F98B /* BasicFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicFont.swift; sourceTree = "<group>"; };
 		9E4629062BAD859A00E0F98B /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
+		9E4629082BAD8A5400E0F98B /* VKLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKLabel.swift; sourceTree = "<group>"; };
+		9E46290A2BAD8B4800E0F98B /* VKView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKView.swift; sourceTree = "<group>"; };
+		9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -143,6 +149,7 @@
 			isa = PBXGroup;
 			children = (
 				9E4629062BAD859A00E0F98B /* UIFont+Extension.swift */,
+				9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -152,6 +159,8 @@
 			children = (
 				9E4629022BAD815A00E0F98B /* VKTextField.swift */,
 				9E4629042BAD858200E0F98B /* BasicFont.swift */,
+				9E4629082BAD8A5400E0F98B /* VKLabel.swift */,
+				9E46290A2BAD8B4800E0F98B /* VKView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -229,12 +238,15 @@
 				9E4628F22BAD7C5800E0F98B /* DataCollectionViewController.swift in Sources */,
 				9E4628F42BAD7C5800E0F98B /* DataCollectionInteractor.swift in Sources */,
 				9E4628D42BAD7BE700E0F98B /* AppDelegate.swift in Sources */,
+				9E46290D2BAD8BED00E0F98B /* UIColor+Extension.swift in Sources */,
 				9E4629072BAD859A00E0F98B /* UIFont+Extension.swift in Sources */,
 				9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */,
 				9E4628F32BAD7C5800E0F98B /* DataCollectionProtocols.swift in Sources */,
 				9E4628FA2BAD7C6000E0F98B /* DashboardPresenter.swift in Sources */,
 				9E4628F12BAD7C5800E0F98B /* DataCollectionRouter.swift in Sources */,
+				9E46290B2BAD8B4800E0F98B /* VKView.swift in Sources */,
 				9E4628FB2BAD7C6000E0F98B /* DashboardRouter.swift in Sources */,
+				9E4629092BAD8A5400E0F98B /* VKLabel.swift in Sources */,
 				9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */,
 				9E4629052BAD858200E0F98B /* BasicFont.swift in Sources */,
 				9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */,

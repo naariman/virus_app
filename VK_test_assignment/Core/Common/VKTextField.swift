@@ -9,14 +9,26 @@ import UIKit
 
 final class VKTextField: UIView {
     
-    private let textField: UITextField = {
-      let textField = UITextField()
-        return textField
-    }()
+    private enum Style {
+        static let borderColor: UIColor = ._8D8F8F
+    }
     
+    private let titleLabel: VKLabel = .init(
+        font: .bold,
+        size: 14
+    )
+    private let borderView: VKView = .init(
+        backgroundColor: .clear,
+        cornerRadius: 8,
+        borderColor: Style.borderColor
+    )
+    private let textField = UITextField()
+    var textFieldTextChanged: ((String) -> Void)?
+
     private var placeholderText: String?
     
     init(
+        title: String,
         placeholderText: String?
     ) {
         super.init(frame: .zero)

@@ -13,6 +13,10 @@ import UIKit
 final class DataCollectionViewController: UIViewController,
                                           DataCollectionViewProtocol {
     
+    private let groupSizeTextFieldView
+    private let infectionFactorTextFieldView
+    private let recalculationInfectedTextFieldView
+    
 	var presenter: DataCollectionPresenterProtocol?
 
 	override func viewDidLoad() {

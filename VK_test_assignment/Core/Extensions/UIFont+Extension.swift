@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIFont {
+public extension UIFont {
     static let regular8 = UIFont(name: BasicFont.regular.fontFamilyName, size: 8)!
     static let regular10 = UIFont(name: BasicFont.regular.fontFamilyName, size: 10)!
     static let regular12 = UIFont(name: BasicFont.regular.fontFamilyName, size: 12)!
