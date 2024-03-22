@@ -13,8 +13,23 @@ import UIKit
 final class DashboardViewController: UIViewController, 
                                      DashboardViewProtocol {
 	var presenter: DashboardPresenterProtocol?
-    private var statisticsView: DashboardStatisticsView = .init()
-    private var playView: PlayView = .init()
+    private let statisticsView: DashboardStatisticsView = .init()
+    private let playView: PlayView = .init()
+//    private let zoomButtonsView:
+    lazy private var collectionView: UICollectionView = {
+        let layout: UICollectionViewFlowLayout = .init()
+        layout.scrollDirection = .horizontal
+        let collectionView = UICollectionView(
+            frame: .zero,
+            collectionViewLayout: layout)
+        layout.sectionInset = UIEdgeInsets(top: 20, left: 10, bottom: 10, right: 10)
+        layout.itemSize = CGSize(width: 60, height: 60)
+        collectionView.backgroundColor = .clear
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.register(GeneralCell.self)
+        return collectionView
+    }()
     
 	override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,17 +44,62 @@ final class DashboardViewController: UIViewController,
 
 private extension DashboardViewController {
     func setupUI() {
-        view.backgroundColor = .white
-        view.addSubviews(statisticsView, playView)
+        view.backgroundColor = .dashboardBackground
+        view.addSubviews(
+            statisticsView,
+            playView,
+            collectionView
+        )
         
         statisticsView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.trailing.equalToSuperview()
+            make.height.equalTo(60)
         }
         playView.snp.makeConstraints { make in
-            make.height.equalTo(220)
+            make.height.equalTo(180)
             make.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(statisticsView.snp.bottom)
+            make.bottom.equalTo(playView.snp.top)
+            make.leading.trailing.equalToSuperview()
+        }
     }
+}
+
+// MARK: - UICollectionViewDataSource
+extension DashboardViewController: UICollectionViewDataSource {
+    func collectionView(
+        _ collectionView: UICollectionView,
+        numberOfItemsInSection section: Int
+    ) -> Int {
+        presenter?.entities.count ?? 0
+    }
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let presenter else { return UICollectionViewCell() }
+        let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+        cell.configure(entity: presenter.entities[indexPath.row])
+        return cell
+    }
+    
+    
+}
+
+// MARK: - UICollectionViewDelegate
+extension DashboardViewController: UICollectionViewDelegate {
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        didSelectItemAt indexPath: IndexPath
+    ) {
+        presenter?.entities[indexPath.row].type = .infected
+        collectionView.reloadData()
+    }
+
 }

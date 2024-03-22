@@ -19,6 +19,10 @@ public extension UIColor {
         return UIColor(hex: 0x985A1)
     }
     
+    static var dashboardBackground: UIColor {
+        return UIColor(hex: 0x6D778D)
+    }
+    
     // MARK: - Additional Colors
     
     static var _8D8F8F: UIColor {

@@ -15,6 +15,7 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     var interactor: DashboardInteractorProtocol?
     private let router: DashboardWireframeProtocol
     private let epidemiologicalSpreadModel: EpidemiologicalSpreadModel
+    var entities: [EntityViewModel] = EntityViewModel.mockData
     
     init(
         interface: DashboardViewProtocol,

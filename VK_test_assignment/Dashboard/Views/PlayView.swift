@@ -49,15 +49,13 @@ private extension PlayView {
         clipsToBounds = false
         layer.cornerRadius = 38
         layer.maskedCorners = [.layerMaxXMinYCorner]
-        layer.borderWidth = 0.5
         layer.borderColor = UIColor.txt.cgColor
         addSubviews(virusImageView)
         virusImageView.snp.makeConstraints { make in
-            make.leading.equalTo(48)
+            make.leading.equalTo(54)
             make.centerY.equalTo(self.snp.top)
-            make.size.equalTo(48)
+            make.size.equalTo(64)
         }
-//        Animations.rotateViewWithPulse(virusImageView)
     }
     
     func configureData() {

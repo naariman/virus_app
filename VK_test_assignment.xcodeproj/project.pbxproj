@@ -37,6 +37,11 @@
 		9E4629262BADCF4400E0F98B /* VKImageWithText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629252BADCF4400E0F98B /* VKImageWithText.swift */; };
 		9E4629282BADE33400E0F98B /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629272BADE33400E0F98B /* PlayView.swift */; };
 		9E46292B2BADF27600E0F98B /* Animations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46292A2BADF27600E0F98B /* Animations.swift */; };
+		9E46292D2BAE00EB00E0F98B /* ZoomButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46292C2BAE00EB00E0F98B /* ZoomButtonsView.swift */; };
+		9E46292F2BAE0AA900E0F98B /* ReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46292E2BAE0AA900E0F98B /* ReusableView.swift */; };
+		9E4629322BAE0B3400E0F98B /* GeneralCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629312BAE0B3400E0F98B /* GeneralCell.swift */; };
+		9E4629342BAE0CFC00E0F98B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */; };
+		9E4629372BAE163F00E0F98B /* GeneralCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -70,6 +75,11 @@
 		9E4629252BADCF4400E0F98B /* VKImageWithText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKImageWithText.swift; sourceTree = "<group>"; };
 		9E4629272BADE33400E0F98B /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		9E46292A2BADF27600E0F98B /* Animations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animations.swift; sourceTree = "<group>"; };
+		9E46292C2BAE00EB00E0F98B /* ZoomButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomButtonsView.swift; sourceTree = "<group>"; };
+		9E46292E2BAE0AA900E0F98B /* ReusableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableView.swift; sourceTree = "<group>"; };
+		9E4629312BAE0B3400E0F98B /* GeneralCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCell.swift; sourceTree = "<group>"; };
+		9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCellViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +158,7 @@
 		9E4628EA2BAD7C4800E0F98B /* Dashboard */ = {
 			isa = PBXGroup;
 			children = (
+				9E4629352BAE162C00E0F98B /* ViewModels */,
 				9E46291F2BADC82400E0F98B /* Views */,
 				9E4628F52BAD7C6000E0F98B /* DashboardPresenter.swift */,
 				9E4628F62BAD7C6000E0F98B /* DashboardRouter.swift */,
@@ -176,6 +187,7 @@
 				9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */,
 				9E46290E2BAD8DAD00E0F98B /* UIView+Extension.swift */,
 				9E4629152BAD92F700E0F98B /* UIStackView+Extension.swift */,
+				9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -188,6 +200,7 @@
 				9E46290A2BAD8B4800E0F98B /* VKView.swift */,
 				9E4629172BAD9CD600E0F98B /* VKButton.swift */,
 				9E4629252BADCF4400E0F98B /* VKImageWithText.swift */,
+				9E46292E2BAE0AA900E0F98B /* ReusableView.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -211,8 +224,10 @@
 		9E46291F2BADC82400E0F98B /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				9E4629302BAE0AC700E0F98B /* Cells */,
 				9E4629202BADC84200E0F98B /* DashboardStatisticsView.swift */,
 				9E4629272BADE33400E0F98B /* PlayView.swift */,
+				9E46292C2BAE00EB00E0F98B /* ZoomButtonsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -231,6 +246,22 @@
 				9E46292A2BADF27600E0F98B /* Animations.swift */,
 			);
 			path = Animations;
+			sourceTree = "<group>";
+		};
+		9E4629302BAE0AC700E0F98B /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				9E4629312BAE0B3400E0F98B /* GeneralCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		9E4629352BAE162C00E0F98B /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */,
+			);
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -316,6 +347,9 @@
 				9E46290D2BAD8BED00E0F98B /* UIColor+Extension.swift in Sources */,
 				9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */,
 				9E4628F32BAD7C5800E0F98B /* DataCollectionProtocols.swift in Sources */,
+				9E4629372BAE163F00E0F98B /* GeneralCellViewModel.swift in Sources */,
+				9E4629342BAE0CFC00E0F98B /* UICollectionView+Extension.swift in Sources */,
+				9E46292D2BAE00EB00E0F98B /* ZoomButtonsView.swift in Sources */,
 				9E4628FA2BAD7C6000E0F98B /* DashboardPresenter.swift in Sources */,
 				9E4628F12BAD7C5800E0F98B /* DataCollectionRouter.swift in Sources */,
 				9E46291B2BADBCFB00E0F98B /* EpidemiologicalSpreadModel.swift in Sources */,
@@ -328,12 +362,14 @@
 				9E46290F2BAD8DAD00E0F98B /* UIView+Extension.swift in Sources */,
 				9E4629162BAD92F700E0F98B /* UIStackView+Extension.swift in Sources */,
 				9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */,
+				9E46292F2BAE0AA900E0F98B /* ReusableView.swift in Sources */,
 				9E4629282BADE33400E0F98B /* PlayView.swift in Sources */,
 				9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */,
 				9E46292B2BADF27600E0F98B /* Animations.swift in Sources */,
 				9E4628FC2BAD7C6000E0F98B /* DashboardViewController.swift in Sources */,
 				9E4628F02BAD7C5800E0F98B /* DataCollectionPresenter.swift in Sources */,
 				9E4628D62BAD7BE700E0F98B /* SceneDelegate.swift in Sources */,
+				9E4629322BAE0B3400E0F98B /* GeneralCell.swift in Sources */,
 				9E4629212BADC84200E0F98B /* DashboardStatisticsView.swift in Sources */,
 				9E46291E2BADBFEA00E0F98B /* UIHelper.swift in Sources */,
 			);

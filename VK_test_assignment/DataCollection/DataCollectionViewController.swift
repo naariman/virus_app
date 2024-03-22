@@ -15,7 +15,6 @@ final class DataCollectionViewController: UIViewController,
     
     private struct Constants {
         static let virusImage = AppImage.virusThree.uiImage
-        static let titleText = "Симулятор распространения вируса 🦠"
         static let groupSizeTitle = "Количество людей"
         static let infectionFactorTitle = "Коэффициент заражаемости"
         static let recalculationInfectedTitle = "Период пересчета"
@@ -28,12 +27,6 @@ final class DataCollectionViewController: UIViewController,
         imageView.clipsToBounds = false
         return imageView
     }()
-    
-    private let titleLabel: VKLabel = .init(
-        text: Constants.titleText,
-        font: .systemFont(ofSize: 24, weight: .bold),
-        textAlignment: .center
-    )
     
     private let textFieldsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -122,8 +115,7 @@ extension DataCollectionViewController {
     }
     
     func configureData() {
-//        Animations.rotateViewWithPulse(virusImageView)
-        virusImageView.rotateInfinitely(duration: 4)
+        Animations.rotateViewWithPulse(virusImageView)
         continueButton.addTarget(
             self,
             action: #selector(continueDidTap),

@@ -12,3 +12,15 @@ public extension UIView {
         views.forEach { addSubview($0) }
     }
 }
+
+public extension UIView {
+    func rotateInfinitely(duration: TimeInterval = 1.0) {
+        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        rotationAnimation.fromValue = 0.0
+        rotationAnimation.toValue = CGFloat.pi * 2.0
+        rotationAnimation.duration = duration
+        rotationAnimation.repeatCount = .greatestFiniteMagnitude // Infinite rotation
+        self.layer.add(rotationAnimation, forKey: "rotationAnimation")
+    }
+}
+

@@ -8,38 +8,7 @@
 import UIKit
 
 final class Animations {
-    
-//    static func rotateViewWithPulse(_ view: UIView) {
-//        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
-//        rotationAnimation.fromValue = 0
-//        rotationAnimation.toValue = CGFloat.pi * 2
-//        rotationAnimation.duration = 12
-//        rotationAnimation.repeatCount = .infinity
-//        
-//        let pulseAnimation = CABasicAnimation(keyPath: "transform.scale")
-//        pulseAnimation.fromValue = 1
-//        pulseAnimation.toValue = 1.1
-//        pulseAnimation.duration = 1
-//        pulseAnimation.autoreverses = true
-//        
-//        let animationGroup = CAAnimationGroup()
-//        animationGroup.animations = [rotationAnimation, pulseAnimation]
-//        animationGroup.duration = 3
-//        animationGroup.repeatCount = .infinity
-//        
-//        view.layer.add(animationGroup, forKey: "rotationAndPulse")
-//    }
-    
-    
-}
-
-extension UIView {
-    func rotateInfinitely(duration: TimeInterval = 1.0) {
-        let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        rotationAnimation.fromValue = 0.0
-        rotationAnimation.toValue = CGFloat.pi * 2.0
-        rotationAnimation.duration = duration
-        rotationAnimation.repeatCount = .greatestFiniteMagnitude // Infinite rotation
-        self.layer.add(rotationAnimation, forKey: "rotationAnimation")
+    static func rotateViewWithPulse(_ view: UIView) {
+        view.rotateInfinitely(duration: 4)
     }
 }

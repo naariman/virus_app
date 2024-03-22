@@ -16,6 +16,7 @@ protocol DashboardWireframeProtocol: AnyObject {
 //MARK: Presenter -
 protocol DashboardPresenterProtocol: AnyObject {
     func viewDidLoad()
+    var entities: [EntityViewModel] { get set }
 }
 
 //MARK: Interactor -
