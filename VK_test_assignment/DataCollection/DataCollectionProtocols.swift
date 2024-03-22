@@ -16,7 +16,9 @@ protocol DataCollectionWireframeProtocol: AnyObject {
 }
 //MARK: Presenter -
 protocol DataCollectionPresenterProtocol: AnyObject {
-
+    func updateGroupSizeTextFieldView(with text: String)
+    func updateInfectionFactorText(with text: String)
+    func updateRecalculationInfected(with text: String)
 }
 
 //MARK: Interactor -
@@ -26,5 +28,6 @@ protocol DataCollectionInteractorProtocol: AnyObject {
 
 //MARK: View -
 protocol DataCollectionViewProtocol: AnyObject {
-  var presenter: DataCollectionPresenterProtocol?  { get set }
+    var presenter: DataCollectionPresenterProtocol?  { get set }
+    var continueButton: VKButton { get set }
 }

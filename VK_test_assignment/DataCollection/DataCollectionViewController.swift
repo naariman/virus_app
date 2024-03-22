@@ -14,12 +14,18 @@ final class DataCollectionViewController: UIViewController,
                                           DataCollectionViewProtocol {
     
     private struct Constants {
-        static let initialTop = 124
-        static let groupSizeTitle = "Размер группы"
-        static let infectionFactorTitle = "infectionFactorTitle"
-        static let recalculationInfectedTitle = "recalculationInfectedTitle"
-        static let continueButtonTitle = "Продолжить"
+        static let titleText = "Симулятор распространения вируса 🦠"
+        static let groupSizeTitle = "Количество людей"
+        static let infectionFactorTitle = "Коэффициент заражаемости"
+        static let recalculationInfectedTitle = "Период пересчета"
+        static let continueButtonTitle = "Запустить моделирование"
     }
+    
+    private let titleLabel: VKLabel = .init(
+        text: Constants.titleText,
+        font: .systemFont(ofSize: 24, weight: .bold),
+        textAlignment: .center
+    )
     
     private let textFieldsStackView: UIStackView = {
         let stackView = UIStackView()
@@ -42,7 +48,7 @@ final class DataCollectionViewController: UIViewController,
         keyboardType: .numberPad
     )
     
-    private let continueButton: VKButton = .init(
+    var continueButton: VKButton = .init(
         title: Constants.continueButtonTitle,
         titleColor: .white,
         backgroundColor: .main
@@ -74,13 +80,21 @@ final class DataCollectionViewController: UIViewController,
 extension DataCollectionViewController {
     func setupUI() {
         view.backgroundColor = .white
+        continueButton.disable()
         
         view.addSubviews(
+            titleLabel,
             textFieldsStackView,
             continueButton
         )
+        
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.leading.trailing.equalToSuperview().inset(16)
+        }
+        
         textFieldsStackView.snp.makeConstraints { make in
-            make.top.equalTo(Constants.initialTop)
+            make.top.equalTo(titleLabel.snp.bottom).offset(32)
             make.leading.trailing.equalToSuperview()
         }
         
@@ -95,8 +109,23 @@ extension DataCollectionViewController {
             make.leading.trailing.equalToSuperview().inset(16)
             make.height.equalTo(48)
         }
+        setupTextFields()
+    }
+    
+    func setupTextFields() {
+        groupSizeTextFieldView.textFieldTextChanged = { [weak self] text in
+            self?.presenter?.updateGroupSizeTextFieldView(with: text)
+        } 
+        infectionFactorTextFieldView.textFieldTextChanged = { [weak self] text in
+            self?.presenter?.updateInfectionFactorText(with: text)
+        }
+        recalculationInfectedTextFieldView.textFieldTextChanged = { [weak self] text in
+            self?.presenter?.updateRecalculationInfected(with: text)
+        }
     }
 }
+
+// MARK: - TextField's update
 
 // MARK: - Keyboard appears process
 private extension DataCollectionViewController {

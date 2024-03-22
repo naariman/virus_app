@@ -15,7 +15,7 @@ final class VKLabel: UILabel {
         font: UIFont,
         size: CGFloat = 16,
         numberOfLines: Int = 0,
-        color: UIColor = .black,
+        color: UIColor = .txt,
         backgroundColor: UIColor = .clear,
         textAlignment: NSTextAlignment = .left
     ) {

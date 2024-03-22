@@ -35,8 +35,11 @@ final class VKTextField: UIView {
         super.init(frame: .zero)
         titleLabel.text = title
         textField.keyboardType = keyboardType
+        textField.tintColor = .txt
+        textField.delegate = self
         textField.font = .systemFont(ofSize: 14)
         setup()
+        setupViews()
     }
     
     required init?(coder: NSCoder) {
@@ -62,7 +65,8 @@ private extension VKTextField {
         
         borderView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(16)
+            make.leading.equalTo(16)
+            make.trailing.equalTo(-16)
             make.height.equalTo(42)
             make.bottom.equalToSuperview()
         }
@@ -77,6 +81,13 @@ private extension VKTextField {
             for: .editingChanged
         )
     }
+    
+    func setupViews() {
+        borderView.layer.shadowColor = UIColor.txt.cgColor
+        borderView.layer.shadowOffset = CGSize(width: 0, height: 2)
+        borderView.layer.shadowOpacity = 0.2
+        borderView.layer.shadowRadius = 12
+    }
 }
 
 //MARK: - Actions
@@ -84,4 +95,16 @@ private extension VKTextField {
     @objc func didChangeText(textField: UITextField) {
         textFieldTextChanged?(textField.text ?? "")
     }
+}
+
+extension VKTextField: UITextFieldDelegate {
+    func textField(
+        _ textField: UITextField,
+        shouldChangeCharactersIn range: NSRange,
+        replacementString string: String
+    ) -> Bool {
+           let allowedCharacters = CharacterSet.decimalDigits
+           let characterSet = CharacterSet(charactersIn: string)
+           return allowedCharacters.isSuperset(of: characterSet)
+       }
 }

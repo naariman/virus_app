@@ -11,7 +11,7 @@ final class VKButton: UIButton {
     
     init(title: String = "",
          titleColor: UIColor = .clear,
-         font: UIFont = .systemFont(ofSize: 16, weight: .semibold),
+         font: UIFont = .systemFont(ofSize: 16, weight: .bold),
          cornerRadius: CGFloat = 8,
          borderWidth: CGFloat = 0,
          borderColor: UIColor = .clear,
