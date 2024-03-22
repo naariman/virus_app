@@ -27,4 +27,8 @@ final class DashboardPresenter: DashboardPresenterProtocol {
         self.router = router
         self.epidemiologicalSpreadModel = model
     }
+    
+    func viewDidLoad() {
+        view?.configure(with: epidemiologicalSpreadModel)
+    }
 }

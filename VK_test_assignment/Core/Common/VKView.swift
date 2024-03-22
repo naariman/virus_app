@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class VKView: UIView {
+class VKView: UIView {
 
     init(backgroundColor: UIColor = .white,
          cornerRadius: CGFloat = 0,

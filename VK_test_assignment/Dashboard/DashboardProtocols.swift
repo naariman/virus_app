@@ -12,11 +12,10 @@ import Foundation
 
 //MARK: Wireframe -
 protocol DashboardWireframeProtocol: AnyObject {
-
 }
 //MARK: Presenter -
 protocol DashboardPresenterProtocol: AnyObject {
-
+    func viewDidLoad()
 }
 
 //MARK: Interactor -
@@ -26,5 +25,6 @@ protocol DashboardInteractorProtocol: AnyObject {
 
 //MARK: View -
 protocol DashboardViewProtocol: AnyObject {
-  var presenter: DashboardPresenterProtocol?  { get set }
+    var presenter: DashboardPresenterProtocol?  { get set }
+    func configure(with model: EpidemiologicalSpreadModel)
 }
