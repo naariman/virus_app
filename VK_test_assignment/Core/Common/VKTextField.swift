@@ -35,9 +35,6 @@ final class VKTextField: UIView {
         super.init(frame: .zero)
         titleLabel.text = title
         textField.keyboardType = keyboardType
-        textField.tintColor = .txt
-        textField.delegate = self
-        textField.font = .systemFont(ofSize: 14)
         setup()
         setupViews()
     }
@@ -83,6 +80,11 @@ private extension VKTextField {
     }
     
     func setupViews() {
+        textField.becomeFirstResponder()
+        textField.textAlignment = .center
+        textField.tintColor = .clear
+        textField.delegate = self
+        textField.font = .systemFont(ofSize: 14, weight: .semibold)
         borderView.layer.shadowColor = UIColor.txt.cgColor
         borderView.layer.shadowOffset = CGSize(width: 0, height: 2)
         borderView.layer.shadowOpacity = 0.2
