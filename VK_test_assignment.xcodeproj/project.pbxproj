@@ -21,6 +21,7 @@
 		9E4628FC2BAD7C6000E0F98B /* DashboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4628F72BAD7C6000E0F98B /* DashboardViewController.swift */; };
 		9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4628F82BAD7C6000E0F98B /* DashboardProtocols.swift */; };
 		9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4628F92BAD7C6000E0F98B /* DashboardInteractor.swift */; };
+		9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629022BAD815A00E0F98B /* VKTextField.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		9E4628F72BAD7C6000E0F98B /* DashboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewController.swift; sourceTree = "<group>"; };
 		9E4628F82BAD7C6000E0F98B /* DashboardProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardProtocols.swift; sourceTree = "<group>"; };
 		9E4628F92BAD7C6000E0F98B /* DashboardInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardInteractor.swift; sourceTree = "<group>"; };
+		9E4629022BAD815A00E0F98B /* VKTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKTextField.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				9E4628E72BAD7BFB00E0F98B /* App */,
+				9E4628FF2BAD80D400E0F98B /* Core */,
 				9E4628E92BAD7C3B00E0F98B /* DataCollection */,
 				9E4628EA2BAD7C4800E0F98B /* Dashboard */,
 				9E4628E82BAD7C2100E0F98B /* Resources */,
@@ -121,6 +124,30 @@
 				9E4628F92BAD7C6000E0F98B /* DashboardInteractor.swift */,
 			);
 			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		9E4628FF2BAD80D400E0F98B /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				9E4629002BAD80DD00E0F98B /* Extensions */,
+				9E4629012BAD80E400E0F98B /* Common */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		9E4629002BAD80DD00E0F98B /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9E4629012BAD80E400E0F98B /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				9E4629022BAD815A00E0F98B /* VKTextField.swift */,
+			);
+			path = Common;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,6 +223,7 @@
 				9E4628F22BAD7C5800E0F98B /* DataCollectionViewController.swift in Sources */,
 				9E4628F42BAD7C5800E0F98B /* DataCollectionInteractor.swift in Sources */,
 				9E4628D42BAD7BE700E0F98B /* AppDelegate.swift in Sources */,
+				9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */,
 				9E4628F32BAD7C5800E0F98B /* DataCollectionProtocols.swift in Sources */,
 				9E4628FA2BAD7C6000E0F98B /* DashboardPresenter.swift in Sources */,
 				9E4628F12BAD7C5800E0F98B /* DataCollectionRouter.swift in Sources */,
