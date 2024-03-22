@@ -13,15 +13,60 @@ import UIKit
 final class DataCollectionViewController: UIViewController,
                                           DataCollectionViewProtocol {
     
-    private let groupSizeTextFieldView
-    private let infectionFactorTextFieldView
-    private let recalculationInfectedTextFieldView
+    private struct Constants {
+        static let initialTop = 124
+        static let groupSizeTitle = "Размер группы"
+        static let infectionFactorTitle = "infectionFactorTitle"
+        static let recalculationInfectedTitle = "recalculationInfectedTitle"
+        static let continueButtonTitle = "Продолжить"
+    }
+    
+    private let textFieldsStackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.distribution = .fillProportionally
+        stackView.spacing = 16
+        stackView.axis = .vertical
+        return stackView
+    }()
+    
+    private let groupSizeTextFieldView: VKTextField = .init(
+        title: Constants.groupSizeTitle,
+        keyboardType: .numberPad
+    )
+    private let infectionFactorTextFieldView: VKTextField = .init(
+        title: Constants.infectionFactorTitle,
+        keyboardType: .numberPad
+    )
+    private let recalculationInfectedTextFieldView: VKTextField = .init(
+        title: Constants.recalculationInfectedTitle,
+        keyboardType: .numberPad
+    )
+    
+    private let continueButton: VKButton = .init(
+        title: Constants.continueButtonTitle,
+        titleColor: .white,
+        backgroundColor: .main
+    )
     
 	var presenter: DataCollectionPresenterProtocol?
 
 	override func viewDidLoad() {
         super.viewDidLoad()
         setupUI()
+        addObserversKeyboardAppears()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+        NotificationCenter.default.removeObserver(
+            self,
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 }
 
@@ -29,5 +74,62 @@ final class DataCollectionViewController: UIViewController,
 extension DataCollectionViewController {
     func setupUI() {
         view.backgroundColor = .white
+        
+        view.addSubviews(
+            textFieldsStackView,
+            continueButton
+        )
+        textFieldsStackView.snp.makeConstraints { make in
+            make.top.equalTo(Constants.initialTop)
+            make.leading.trailing.equalToSuperview()
+        }
+        
+        textFieldsStackView.addArrangedSubviews(
+            groupSizeTextFieldView,
+            infectionFactorTextFieldView,
+            recalculationInfectedTextFieldView
+        )
+        
+        continueButton.snp.makeConstraints { make in
+            make.bottom.equalTo(-32)
+            make.leading.trailing.equalToSuperview().inset(16)
+            make.height.equalTo(48)
+        }
+    }
+}
+
+// MARK: - Keyboard appears process
+private extension DataCollectionViewController {
+    func addObserversKeyboardAppears() {
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc private func keyboardWillShow(
+        notification: NSNotification
+    ) {
+        if let userInfo = notification.userInfo,
+           let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+            
+            let keyboardSize = keyboardFrame.cgRectValue.size
+            let keyboardHeight = keyboardSize.height
+            
+            UIView.animate(withDuration: 0.3) {
+                self.continueButton.snp.updateConstraints { make in
+                    make.bottom.equalTo(-keyboardHeight - 8)
+                }
+                self.view.layoutIfNeeded()
+            }
+        }
+    }
+
+    @objc private func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.3) {
+            self.continueButton.snp.updateConstraints { make in
+                make.bottom.equalTo(-32)
+            }
+            self.view.layoutIfNeeded()
+        }
     }
 }

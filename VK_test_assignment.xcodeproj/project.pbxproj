@@ -22,11 +22,14 @@
 		9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4628F82BAD7C6000E0F98B /* DashboardProtocols.swift */; };
 		9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4628F92BAD7C6000E0F98B /* DashboardInteractor.swift */; };
 		9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629022BAD815A00E0F98B /* VKTextField.swift */; };
-		9E4629052BAD858200E0F98B /* BasicFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629042BAD858200E0F98B /* BasicFont.swift */; };
-		9E4629072BAD859A00E0F98B /* UIFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629062BAD859A00E0F98B /* UIFont+Extension.swift */; };
 		9E4629092BAD8A5400E0F98B /* VKLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629082BAD8A5400E0F98B /* VKLabel.swift */; };
 		9E46290B2BAD8B4800E0F98B /* VKView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46290A2BAD8B4800E0F98B /* VKView.swift */; };
 		9E46290D2BAD8BED00E0F98B /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */; };
+		9E46290F2BAD8DAD00E0F98B /* UIView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E46290E2BAD8DAD00E0F98B /* UIView+Extension.swift */; };
+		9E4629122BAD8EDF00E0F98B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4629112BAD8EDF00E0F98B /* SnapKit */; };
+		9E4629142BAD8EDF00E0F98B /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = 9E4629132BAD8EDF00E0F98B /* SnapKit-Dynamic */; };
+		9E4629162BAD92F700E0F98B /* UIStackView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629152BAD92F700E0F98B /* UIStackView+Extension.swift */; };
+		9E4629182BAD9CD600E0F98B /* VKButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629172BAD9CD600E0F98B /* VKButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,11 +50,12 @@
 		9E4628F82BAD7C6000E0F98B /* DashboardProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardProtocols.swift; sourceTree = "<group>"; };
 		9E4628F92BAD7C6000E0F98B /* DashboardInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardInteractor.swift; sourceTree = "<group>"; };
 		9E4629022BAD815A00E0F98B /* VKTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKTextField.swift; sourceTree = "<group>"; };
-		9E4629042BAD858200E0F98B /* BasicFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicFont.swift; sourceTree = "<group>"; };
-		9E4629062BAD859A00E0F98B /* UIFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Extension.swift"; sourceTree = "<group>"; };
 		9E4629082BAD8A5400E0F98B /* VKLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKLabel.swift; sourceTree = "<group>"; };
 		9E46290A2BAD8B4800E0F98B /* VKView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKView.swift; sourceTree = "<group>"; };
 		9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
+		9E46290E2BAD8DAD00E0F98B /* UIView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extension.swift"; sourceTree = "<group>"; };
+		9E4629152BAD92F700E0F98B /* UIStackView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+Extension.swift"; sourceTree = "<group>"; };
+		9E4629172BAD9CD600E0F98B /* VKButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VKButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +63,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E4629122BAD8EDF00E0F98B /* SnapKit in Frameworks */,
+				9E4629142BAD8EDF00E0F98B /* SnapKit-Dynamic in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,8 +154,9 @@
 		9E4629002BAD80DD00E0F98B /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				9E4629062BAD859A00E0F98B /* UIFont+Extension.swift */,
 				9E46290C2BAD8BEC00E0F98B /* UIColor+Extension.swift */,
+				9E46290E2BAD8DAD00E0F98B /* UIView+Extension.swift */,
+				9E4629152BAD92F700E0F98B /* UIStackView+Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -158,9 +165,9 @@
 			isa = PBXGroup;
 			children = (
 				9E4629022BAD815A00E0F98B /* VKTextField.swift */,
-				9E4629042BAD858200E0F98B /* BasicFont.swift */,
 				9E4629082BAD8A5400E0F98B /* VKLabel.swift */,
 				9E46290A2BAD8B4800E0F98B /* VKView.swift */,
+				9E4629172BAD9CD600E0F98B /* VKButton.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -181,6 +188,10 @@
 			dependencies = (
 			);
 			name = VK_test_assignment;
+			packageProductDependencies = (
+				9E4629112BAD8EDF00E0F98B /* SnapKit */,
+				9E4629132BAD8EDF00E0F98B /* SnapKit-Dynamic */,
+			);
 			productName = "VK Test Assignment";
 			productReference = 9E4628D02BAD7BE700E0F98B /* VK_test_assignment.app */;
 			productType = "com.apple.product-type.application";
@@ -209,6 +220,9 @@
 				Base,
 			);
 			mainGroup = 9E4628C72BAD7BE700E0F98B;
+			packageReferences = (
+				9E4629102BAD8EDF00E0F98B /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 9E4628D12BAD7BE700E0F98B /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -239,16 +253,17 @@
 				9E4628F42BAD7C5800E0F98B /* DataCollectionInteractor.swift in Sources */,
 				9E4628D42BAD7BE700E0F98B /* AppDelegate.swift in Sources */,
 				9E46290D2BAD8BED00E0F98B /* UIColor+Extension.swift in Sources */,
-				9E4629072BAD859A00E0F98B /* UIFont+Extension.swift in Sources */,
 				9E4629032BAD815A00E0F98B /* VKTextField.swift in Sources */,
 				9E4628F32BAD7C5800E0F98B /* DataCollectionProtocols.swift in Sources */,
 				9E4628FA2BAD7C6000E0F98B /* DashboardPresenter.swift in Sources */,
 				9E4628F12BAD7C5800E0F98B /* DataCollectionRouter.swift in Sources */,
 				9E46290B2BAD8B4800E0F98B /* VKView.swift in Sources */,
 				9E4628FB2BAD7C6000E0F98B /* DashboardRouter.swift in Sources */,
+				9E4629182BAD9CD600E0F98B /* VKButton.swift in Sources */,
 				9E4629092BAD8A5400E0F98B /* VKLabel.swift in Sources */,
+				9E46290F2BAD8DAD00E0F98B /* UIView+Extension.swift in Sources */,
+				9E4629162BAD92F700E0F98B /* UIStackView+Extension.swift in Sources */,
 				9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */,
-				9E4629052BAD858200E0F98B /* BasicFont.swift in Sources */,
 				9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */,
 				9E4628FC2BAD7C6000E0F98B /* DashboardViewController.swift in Sources */,
 				9E4628F02BAD7C5800E0F98B /* DataCollectionPresenter.swift in Sources */,
@@ -465,6 +480,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9E4629102BAD8EDF00E0F98B /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9E4629112BAD8EDF00E0F98B /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E4629102BAD8EDF00E0F98B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		9E4629132BAD8EDF00E0F98B /* SnapKit-Dynamic */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9E4629102BAD8EDF00E0F98B /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = "SnapKit-Dynamic";
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 9E4628C82BAD7BE700E0F98B /* Project object */;
 }

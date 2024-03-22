@@ -12,7 +12,7 @@ final class VKLabel: UILabel {
     init(
         frame: CGRect = .zero,
         text: String = "",
-        font: BasicFont,
+        font: UIFont,
         size: CGFloat = 16,
         numberOfLines: Int = 0,
         color: UIColor = .black,
@@ -21,7 +21,7 @@ final class VKLabel: UILabel {
     ) {
         super.init(frame: frame)
         self.text = text
-        self.font = UIFont(name: font.fontFamilyName, size: size)
+        self.font = font
         self.textColor = color
         self.numberOfLines = numberOfLines
         self.backgroundColor = backgroundColor

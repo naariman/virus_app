@@ -9,9 +9,17 @@ import UIKit
 
 public extension UIColor {
     
+    // MARK: - Main Colors
+    
     static var txt: UIColor {
         return UIColor(hex: 0x384046)
     }
+    
+    static var main: UIColor {
+        return UIColor(hex: 0x985A1)
+    }
+    
+    // MARK: - Additional Colors
     
     static var _8D8F8F: UIColor {
         return UIColor(hex: 0x8D8F8F)
