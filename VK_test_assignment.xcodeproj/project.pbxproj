@@ -24,7 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		9E4628D02BAD7BE700E0F98B /* VK Test Assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "VK Test Assignment.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		9E4628D02BAD7BE700E0F98B /* VK_test_assignment.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VK_test_assignment.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E4628D32BAD7BE700E0F98B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9E4628D52BAD7BE700E0F98B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		9E4628DC2BAD7BE900E0F98B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -56,7 +56,7 @@
 		9E4628C72BAD7BE700E0F98B = {
 			isa = PBXGroup;
 			children = (
-				9E4628D22BAD7BE700E0F98B /* VK Test Assignment */,
+				9E4628D22BAD7BE700E0F98B /* VK_test_assignment */,
 				9E4628D12BAD7BE700E0F98B /* Products */,
 			);
 			sourceTree = "<group>";
@@ -64,20 +64,20 @@
 		9E4628D12BAD7BE700E0F98B /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				9E4628D02BAD7BE700E0F98B /* VK Test Assignment.app */,
+				9E4628D02BAD7BE700E0F98B /* VK_test_assignment.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9E4628D22BAD7BE700E0F98B /* VK Test Assignment */ = {
+		9E4628D22BAD7BE700E0F98B /* VK_test_assignment */ = {
 			isa = PBXGroup;
 			children = (
 				9E4628E72BAD7BFB00E0F98B /* App */,
-				9E4628EA2BAD7C4800E0F98B /* Dashboard */,
 				9E4628E92BAD7C3B00E0F98B /* DataCollection */,
+				9E4628EA2BAD7C4800E0F98B /* Dashboard */,
 				9E4628E82BAD7C2100E0F98B /* Resources */,
 			);
-			path = "VK Test Assignment";
+			path = VK_test_assignment;
 			sourceTree = "<group>";
 		};
 		9E4628E72BAD7BFB00E0F98B /* App */ = {
@@ -126,9 +126,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		9E4628CF2BAD7BE700E0F98B /* VK Test Assignment */ = {
+		9E4628CF2BAD7BE700E0F98B /* VK_test_assignment */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 9E4628E42BAD7BE900E0F98B /* Build configuration list for PBXNativeTarget "VK Test Assignment" */;
+			buildConfigurationList = 9E4628E42BAD7BE900E0F98B /* Build configuration list for PBXNativeTarget "VK_test_assignment" */;
 			buildPhases = (
 				9E4628CC2BAD7BE700E0F98B /* Sources */,
 				9E4628CD2BAD7BE700E0F98B /* Frameworks */,
@@ -138,9 +138,9 @@
 			);
 			dependencies = (
 			);
-			name = "VK Test Assignment";
+			name = VK_test_assignment;
 			productName = "VK Test Assignment";
-			productReference = 9E4628D02BAD7BE700E0F98B /* VK Test Assignment.app */;
+			productReference = 9E4628D02BAD7BE700E0F98B /* VK_test_assignment.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -158,7 +158,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 9E4628CB2BAD7BE700E0F98B /* Build configuration list for PBXProject "VK Test Assignment" */;
+			buildConfigurationList = 9E4628CB2BAD7BE700E0F98B /* Build configuration list for PBXProject "VK_test_assignment" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -171,7 +171,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				9E4628CF2BAD7BE700E0F98B /* VK Test Assignment */,
+				9E4628CF2BAD7BE700E0F98B /* VK_test_assignment */,
 			);
 		};
 /* End PBXProject section */
@@ -350,7 +350,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 532GA5V6NJ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "VK Test Assignment/Info.plist";
+				INFOPLIST_FILE = VK_test_assignment/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -377,7 +377,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 532GA5V6NJ;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "VK Test Assignment/Info.plist";
+				INFOPLIST_FILE = VK_test_assignment/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -398,7 +398,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		9E4628CB2BAD7BE700E0F98B /* Build configuration list for PBXProject "VK Test Assignment" */ = {
+		9E4628CB2BAD7BE700E0F98B /* Build configuration list for PBXProject "VK_test_assignment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9E4628E22BAD7BE900E0F98B /* Debug */,
@@ -407,7 +407,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		9E4628E42BAD7BE900E0F98B /* Build configuration list for PBXNativeTarget "VK Test Assignment" */ = {
+		9E4628E42BAD7BE900E0F98B /* Build configuration list for PBXNativeTarget "VK_test_assignment" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				9E4628E52BAD7BE900E0F98B /* Debug */,
