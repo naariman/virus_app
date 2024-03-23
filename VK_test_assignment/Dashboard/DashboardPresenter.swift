@@ -21,6 +21,8 @@ final class DashboardPresenter: DashboardPresenterProtocol {
         }
     }
     var epidemicOverallStatistic: EpidemicOverallStatistic
+    private var timer: Timer?
+    private var seconds = 0
     
     init(
         interface: DashboardViewProtocol,
@@ -37,5 +39,26 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     
     func viewDidLoad() {
         view?.configureStatisticsView(with: epidemicOverallStatistic)
+        startTimer()
     }
+}
+
+private extension DashboardPresenter {
+    func startTimer() {
+        timer = Timer.scheduledTimer(
+            timeInterval: 1.0,
+            target: self,
+            selector: #selector(updateTimer),
+            userInfo: nil,
+            repeats: true
+        )
+    }
+    
+    @objc func updateTimer() {
+         seconds += 1
+         let minutes = seconds / 60
+         let secondsValue = seconds % 60
+         let timeString = String(format: "%02d:%02d", minutes, secondsValue)
+        view?.updateTimer(with: timeString)
+     }
 }

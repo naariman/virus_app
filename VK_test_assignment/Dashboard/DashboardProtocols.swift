@@ -30,4 +30,5 @@ protocol DashboardViewProtocol: AnyObject {
     var presenter: DashboardPresenterProtocol?  { get set }
     func configureStatisticsView(with model: EpidemicOverallStatistic)
     func update()
+    func updateTimer(with text: String)
 }

@@ -61,6 +61,11 @@ final class DashboardStatisticsView: VKView {
             text: "00:00"
         )
     }
+    
+    
+    func updateTimer(with text: String) {
+        timerView.updateText(with: text)
+    }
 }
 
 private extension DashboardStatisticsView {
@@ -74,9 +79,9 @@ private extension DashboardStatisticsView {
             make.leading.trailing.equalToSuperview().inset(48)
         }
         mainStackView.addArrangedSubviews(
+            timerView,
             groupSizeView,
-            infectionFactorView,
-            timerView
+            infectionFactorView
         )
     }
 }

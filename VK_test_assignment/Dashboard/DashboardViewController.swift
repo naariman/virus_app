@@ -88,6 +88,10 @@ extension DashboardViewController: DashboardViewProtocol {
     func update() {
         collectionView.reloadData()
     }
+    
+    func updateTimer(with text: String) {
+        statisticsView.updateTimer(with: text)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
