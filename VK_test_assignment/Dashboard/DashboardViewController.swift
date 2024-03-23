@@ -10,8 +10,14 @@
 
 import UIKit
 
+private struct Constants {
+    static let minimumZoomScale: CGFloat = 0.5
+    static let maximumZoomScale: CGFloat = 5.0
+}
+
 final class DashboardViewController: UIViewController {
 	var presenter: DashboardPresenterProtocol?
+    
     private let emptyTopView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -19,18 +25,23 @@ final class DashboardViewController: UIViewController {
     }()
     private let statisticsView: DashboardStatisticsView = .init()
     private let playView: PlayView = .init()
+    private let scrollableContainerView: UIView = {
+        let view = UIView()
+        return view
+    }()
 //    private let zoomButtonsView:
+    private let scrollView: UIScrollView = {
+       let scrollView = UIScrollView()
+        return scrollView
+    }()
+    
     lazy private var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
         )
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-        layout.itemSize = CGSize(width: 32, height: 32)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -51,13 +62,24 @@ final class DashboardViewController: UIViewController {
 
 private extension DashboardViewController {
     func setupUI() {
+        let scrollView = UIScrollView(frame: view.bounds)
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = Constants.minimumZoomScale
+        scrollView.maximumZoomScale = Constants.maximumZoomScale
+        view.addSubview(scrollView)
         view.backgroundColor = .dashboardBackground
         view.addSubviews(
             emptyTopView,
             statisticsView,
-            playView,
-            collectionView
+            playView
         )
+        scrollView.addSubview(scrollableContainerView)
+        scrollableContainerView.addSubview(collectionView)
+        scrollableContainerView.frame = scrollView.bounds
+        collectionView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
         
         emptyTopView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -71,15 +93,16 @@ private extension DashboardViewController {
             make.height.equalTo(60)
         }
         playView.snp.makeConstraints { make in
-            make.height.equalTo(180)
+            make.height.equalTo(85)
             make.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(statisticsView.snp.bottom).offset(8)
-            make.bottom.equalTo(playView.snp.top).offset(-8)
-            make.leading.trailing.equalToSuperview().inset(8)
-        }
+//        collectionView.snp.makeConstraints { make in
+//            make.top.equalTo(statisticsView.snp.bottom).offset(8)
+//            make.bottom.equalTo(playView.snp.top).offset(-8)
+//            make.leading.trailing.equalToSuperview().inset(8)
+//            make.center.equalToSuperview()
+//        }
     }
 }
 
@@ -94,6 +117,10 @@ extension DashboardViewController: DashboardViewProtocol {
     
     func updateMainStatistic(uninfected: String, infected: String) {
         statisticsView.updateMainStatistic(uninfected: uninfected, infected: infected)
+    }
+    
+    func updateProgressView(_ progress: Float) {
+        playView.updateProgress(progress)
     }
 }
 
@@ -134,17 +161,33 @@ extension DashboardViewController: UICollectionViewDelegate {
         presenter?.entities[indexPath.section][indexPath.row].type = .infected
         presenter?.spreadInfection()
     }
-
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 32, height: 32)
+    }
 }
 
 // MARK: - UICollectionViewFlowLayoutDelegate
 extension DashboardViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        sizeForItemAt indexPath: IndexPath
-//    ) -> CGSize {
-//        let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-//        
-//    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        let cellWidth: CGFloat = 32.0
+               let horizontalSpacing: CGFloat = 10.0
+               let numberOfCells = presenter?.entities[section].count ?? 0
+               let totalCellWidth = cellWidth * CGFloat(numberOfCells)
+               let totalSpacingWidth = horizontalSpacing * CGFloat(max(numberOfCells - 1, 0))
+               let inset = max((collectionView.frame.width - (totalCellWidth + totalSpacingWidth)) / 2, 0)
+               return UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
+    }
+}
+
+// MARK: - UIScrollView
+extension DashboardViewController: UIScrollViewDelegate {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+           return scrollableContainerView
+       }
+       
+//       func scrollViewDidZoom(_ scrollView: UIScrollView) {
+//           // Обновление расположения ячеек при изменении масштаба
+//           updateCellLayout()
+//       }
 }

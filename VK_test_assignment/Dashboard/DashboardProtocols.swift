@@ -34,4 +34,5 @@ protocol DashboardViewProtocol: AnyObject {
     func update()
     func updateTimer(with text: String)
     func updateMainStatistic(uninfected: String, infected: String)
+    func updateProgressView(_ progress: Float)
 }

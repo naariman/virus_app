@@ -22,7 +22,7 @@ final class VKTextField: UIView {
         backgroundColor: .clear,
         cornerRadius: 8,
         borderColor: Style.borderColor,
-        borderWidth: 1
+        borderWidth: 0.5
     )
     
     lazy private var textField = UITextField()
@@ -41,6 +41,10 @@ final class VKTextField: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setPlaceholder(_ text: String) {
+        textField.placeholder = text
     }
 }
 

@@ -19,8 +19,23 @@ public extension UIView {
         rotationAnimation.fromValue = 0.0
         rotationAnimation.toValue = CGFloat.pi * 2.0
         rotationAnimation.duration = duration
-        rotationAnimation.repeatCount = .greatestFiniteMagnitude // Infinite rotation
+        rotationAnimation.repeatCount = .greatestFiniteMagnitude
         self.layer.add(rotationAnimation, forKey: "rotationAnimation")
+    }
+}
+
+public extension UIView {
+    func addShadow(
+        ofColor color: UIColor,
+        radius: CGFloat,
+        offset: CGSize,
+        opacity: Float
+    ) {
+        layer.shadowColor = color.cgColor
+        layer.shadowOffset = offset
+        layer.shadowRadius = radius
+        layer.shadowOpacity = opacity
+        layer.masksToBounds = false
     }
 }
 

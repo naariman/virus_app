@@ -10,6 +10,10 @@
 
 import UIKit
 
+private struct Constants {
+    static var timerFormat = "%02d:%02d"
+}
+
 final class DashboardPresenter: DashboardPresenterProtocol {
     weak private var view: DashboardViewProtocol?
     var interactor: DashboardInteractorProtocol?
@@ -126,7 +130,7 @@ extension DashboardPresenter {
     }
 }
 
-// MARK: - Spread Calculation Process
+// MARK: - Spread calculation process
 private extension DashboardPresenter {
     func updateStatisticView(entities: [[EntityViewModel]]) {
         self.entities = entities
@@ -143,10 +147,18 @@ private extension DashboardPresenter {
             }
         }
         
-        self.view?.updateMainStatistic(
-            uninfected: uninfectedCount.description,
-            infected: infectedCount.description
-        )
+        DispatchQueue.main.async {
+                self.view?.updateMainStatistic(
+                    uninfected: uninfectedCount.description,
+                    infected: infectedCount.description
+                )
+                if uninfectedCount != 0 {
+                    self.view?.updateProgressView(Float(infectedCount) / Float(uninfectedCount))
+                } else {
+                    // handle the case when uninfectedCount is zero to avoid division by zero
+                    self.view?.updateProgressView(0.0)
+                }
+            }
     }
 }
 
@@ -166,13 +178,16 @@ private extension DashboardPresenter {
         seconds += 1
         let minutes = seconds / 60
         let secondsValue = seconds % 60
-        let timeString = String(format: "%02d:%02d", minutes, secondsValue)
+        let timeString = String(format: Constants.timerFormat, minutes, secondsValue)
         view?.updateTimer(with: timeString)
     }
     
     func startSpreadingInfection(every interval: TimeInterval) {
         timerRecalculationInfected?.invalidate()
-        timerRecalculationInfected = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+        timerRecalculationInfected = Timer.scheduledTimer(
+            withTimeInterval: interval,
+            repeats: true
+        ) { [weak self] _ in
             self?.spreadInfection()
         }
     }

@@ -29,6 +29,14 @@ public extension UIColor {
         return UIColor(hex: 0x8D8F8F)
     }
     
+    static var _7faa55: UIColor {
+        return UIColor(hex: 0xa0e5e6)
+    }
+    
+    static var _3981B6: UIColor {
+        return UIColor(hex: 0x3981B6)
+    }
+    
     convenience init(hex: UInt) {
         self.init(
             red: CGFloat((hex & 0xFF0000) >> 16) / 255.0,

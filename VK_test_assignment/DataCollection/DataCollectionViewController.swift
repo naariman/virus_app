@@ -19,6 +19,10 @@ final class DataCollectionViewController: UIViewController,
         static let infectionFactorTitle = "Коэффициент заражаемости"
         static let recalculationInfectedTitle = "Период пересчета"
         static let continueButtonTitle = "Запустить моделирование"
+        static let groupSizePlaceholder = "Например, 1 000"
+        static let infectionFactorPlaceholder = "Сколько соседей может быть заражено"
+        static let recalculationInfectedPlaceholder = "Например, 1 секунда"
+        
     }
     
     private let virusImageView: UIImageView = {
@@ -127,13 +131,16 @@ extension DataCollectionViewController {
     func setupTextFields() {
         groupSizeTextFieldView.textFieldTextChanged = { [weak self] text in
             self?.presenter?.updateGroupSizeTextFieldView(with: text)
-        } 
+        }
+        groupSizeTextFieldView.setPlaceholder(Constants.groupSizePlaceholder)
         infectionFactorTextFieldView.textFieldTextChanged = { [weak self] text in
             self?.presenter?.updateInfectionFactorText(with: text)
         }
+        infectionFactorTextFieldView.setPlaceholder(Constants.infectionFactorPlaceholder)
         recalculationInfectedTextFieldView.textFieldTextChanged = { [weak self] text in
             self?.presenter?.updateRecalculationInfected(with: text)
         }
+        recalculationInfectedTextFieldView.setPlaceholder(Constants.recalculationInfectedPlaceholder)
     }
 }
 
