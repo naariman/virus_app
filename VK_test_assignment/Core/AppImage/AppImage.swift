@@ -36,4 +36,6 @@ public enum AppImage: String,
     case stop
     case virus
     case virusThree
+    case zoomIn
+    case zoomOut
 }

@@ -18,18 +18,17 @@ private struct Constants {
 final class DashboardViewController: UIViewController {
 	var presenter: DashboardPresenterProtocol?
     
-    private let emptyTopView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
+    private let emptyTopView: VKView = .init()
     private let statisticsView: DashboardStatisticsView = .init()
     private let playView: PlayView = .init()
+    
     private let scrollableContainerView: UIView = {
         let view = UIView()
         return view
     }()
-//    private let zoomButtonsView:
+
+    private lazy var zoomButtonsView: ZoomButtonsView = .init()
+    
     private let scrollView: UIScrollView = {
        let scrollView = UIScrollView()
         return scrollView
@@ -71,7 +70,8 @@ private extension DashboardViewController {
         view.addSubviews(
             emptyTopView,
             statisticsView,
-            playView
+            playView,
+            zoomButtonsView
         )
         scrollView.addSubview(scrollableContainerView)
         scrollableContainerView.addSubview(collectionView)
@@ -80,6 +80,10 @@ private extension DashboardViewController {
             make.edges.equalToSuperview()
         }
 
+        zoomButtonsView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
+        }
         
         emptyTopView.snp.makeConstraints { make in
             make.top.equalToSuperview()
