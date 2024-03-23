@@ -26,7 +26,6 @@ final class DashboardViewController: UIViewController {
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
-        
         )
         layout.minimumLineSpacing = 0
         layout.minimumInteritemSpacing = 0

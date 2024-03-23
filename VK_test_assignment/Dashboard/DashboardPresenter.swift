@@ -120,9 +120,33 @@ extension DashboardPresenter {
             }
             
             DispatchQueue.main.async {
-                self.entities = newEntities
+                self.updateStatisticView(entities: newEntities)
             }
         }
+    }
+}
+
+// MARK: - Spread Calculation Process
+private extension DashboardPresenter {
+    func updateStatisticView(entities: [[EntityViewModel]]) {
+        self.entities = entities
+        var uninfectedCount = 0
+        var infectedCount = 0
+        
+        for row in entities {
+            for cell in row {
+                if cell.type == .uninfected {
+                    uninfectedCount += 1
+                } else if cell.type == .infected {
+                    infectedCount += 1
+                }
+            }
+        }
+        
+        self.view?.updateMainStatistic(
+            uninfected: uninfectedCount.description,
+            infected: infectedCount.description
+        )
     }
 }
 
