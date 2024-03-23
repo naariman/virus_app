@@ -16,13 +16,16 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     private let router: DashboardWireframeProtocol
     
     private let userInputModel: UserInputModel
-    var entities: [EntityViewModel] = [] {
+    var entities: [[EntityViewModel]] = [] {
         didSet {
-            view?.update()
+            DispatchQueue.main.async {
+                self.view?.update()
+            }
         }
     }
     var epidemicOverallStatistic: EpidemicOverallStatistic
     private var timer: Timer?
+    private var timerRecalculationInfected: Timer?
     private var seconds = 0
     
     init(
@@ -49,10 +52,21 @@ final class DashboardPresenter: DashboardPresenterProtocol {
 // MARK: - Init
 private extension DashboardPresenter {
     func entitiesInitialProcess() {
-        DispatchQueue.main.async {
-            for _ in 0..<self.userInputModel.groupSize {
-                self.entities.append(.init(type: .uninfected))
+        let groupSize = userInputModel.groupSize
+        let numOfSections = Int(ceil(sqrt(Double(groupSize))))
+        let numOfRows = Int(ceil(Double(groupSize) / Double(numOfSections)))
+        
+        var currentGroupIndex = 0
+        for _ in 0..<numOfSections {
+            var rowsInSection: [EntityViewModel] = []
+            for _ in 0..<numOfRows {
+                if currentGroupIndex < groupSize {
+                    let entity = EntityViewModel(type: .uninfected)
+                    rowsInSection.append(entity)
+                    currentGroupIndex += 1
+                }
             }
+            entities.append(rowsInSection)
         }
     }
 }
@@ -60,13 +74,54 @@ private extension DashboardPresenter {
 // MARK: -
 extension DashboardPresenter {
     func select(at indexPath: IndexPath) {
-        if entities[indexPath.row].type == .uninfected {
+        if entities[indexPath.section][indexPath.item].type == .uninfected {
             epidemicOverallStatistic.uninfectedCount -= 1
             epidemicOverallStatistic.infectedCount += 1
             view?.updateMainStatistic(
                 uninfected: epidemicOverallStatistic.uninfectedCount.description,
                 infected: epidemicOverallStatistic.infectedCount.description
             )
+        }
+        startSpreadingInfection(
+            every: TimeInterval(userInputModel.recalculationInfected)
+        )
+    }
+    
+    func spreadInfection() {
+        DispatchQueue.global().async {
+            var newEntities = self.entities
+            let infectionFactor = self.userInputModel.infectionFactor
+            
+            var infectedCells: [(Int, Int)] = []
+            
+            for i in 0..<self.entities.count {
+                for j in 0..<self.entities[i].count {
+                    if self.entities[i][j].type == .infected {
+                        infectedCells.append((i, j))
+                    }
+                }
+            }
+            
+            for (i, j) in infectedCells {
+                var infectionCount = 0
+                
+                for m in max(0, i - 1)..<min(self.entities.count, i + 2) {
+                    for n in max(0, j - 1)..<min(self.entities[m].count, j + 2) {
+                        if !(m == i && n == j) && newEntities[m][n].type == .uninfected {
+                            if infectionCount < infectionFactor {
+                                newEntities[m][n].type = .infected
+                                infectionCount += 1
+                            } else {
+                                break
+                            }
+                        }
+                    }
+                }
+            }
+            
+            DispatchQueue.main.async {
+                self.entities = newEntities
+            }
         }
     }
 }
@@ -84,10 +139,21 @@ private extension DashboardPresenter {
     }
     
     @objc func updateTimer() {
-         seconds += 1
-         let minutes = seconds / 60
-         let secondsValue = seconds % 60
-         let timeString = String(format: "%02d:%02d", minutes, secondsValue)
+        seconds += 1
+        let minutes = seconds / 60
+        let secondsValue = seconds % 60
+        let timeString = String(format: "%02d:%02d", minutes, secondsValue)
         view?.updateTimer(with: timeString)
-     }
+    }
+    
+    func startSpreadingInfection(every interval: TimeInterval) {
+        timerRecalculationInfected?.invalidate()
+        timerRecalculationInfected = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { [weak self] _ in
+            self?.spreadInfection()
+        }
+    }
+    
+    func stopSpreadingInfection() {
+        timerRecalculationInfected?.invalidate()
+    }
 }

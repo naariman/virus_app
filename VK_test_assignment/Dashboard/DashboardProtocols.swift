@@ -16,9 +16,10 @@ protocol DashboardWireframeProtocol: AnyObject {
 //MARK: Presenter -
 protocol DashboardPresenterProtocol: AnyObject {
     func viewDidLoad()
-    var entities: [EntityViewModel] { get set }
+    var entities: [[EntityViewModel]] { get set }
     var epidemicOverallStatistic: EpidemicOverallStatistic { get set }
     func select(at indexPath: IndexPath)
+    func spreadInfection()
 }
 
 //MARK: Interactor -

@@ -100,11 +100,15 @@ extension DashboardViewController: DashboardViewProtocol {
 
 // MARK: - UICollectionViewDataSource
 extension DashboardViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        presenter?.entities.count ?? 0
+    }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        presenter?.entities.count ?? 0
+        presenter?.entities[section].count ?? 0
     }
     
     func collectionView(
@@ -113,7 +117,7 @@ extension DashboardViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let presenter else { return UICollectionViewCell() }
         let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-        cell.configure(entity: presenter.entities[indexPath.row])
+        cell.configure(entity: presenter.entities[indexPath.section][indexPath.row])
         return cell
     }
     
@@ -128,7 +132,8 @@ extension DashboardViewController: UICollectionViewDelegate {
         didSelectItemAt indexPath: IndexPath
     ) {
         presenter?.select(at: indexPath)
-        presenter?.entities[indexPath.row].type = .infected
+        presenter?.entities[indexPath.section][indexPath.row].type = .infected
+        presenter?.spreadInfection()
     }
 
 }
