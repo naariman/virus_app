@@ -14,8 +14,9 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     weak private var view: DashboardViewProtocol?
     var interactor: DashboardInteractorProtocol?
     private let router: DashboardWireframeProtocol
-    private let epidemiologicalSpreadModel: UserInputModel
-    var entities: [EntityViewModel] = EntityViewModel.mockData {
+    
+    private let userInputModel: UserInputModel
+    var entities: [EntityViewModel] = [] {
         didSet {
             view?.update()
         }
@@ -33,16 +34,44 @@ final class DashboardPresenter: DashboardPresenterProtocol {
         self.view = interface
         self.interactor = interactor
         self.router = router
-        self.epidemiologicalSpreadModel = model
+        self.userInputModel = model
         epidemicOverallStatistic = .init(uninfectedCount: model.groupSize)
     }
     
     func viewDidLoad() {
         view?.configureStatisticsView(with: epidemicOverallStatistic)
+        entitiesInitialProcess()
         startTimer()
+    }
+    
+}
+
+// MARK: - Init
+private extension DashboardPresenter {
+    func entitiesInitialProcess() {
+        DispatchQueue.main.async {
+            for _ in 0..<self.userInputModel.groupSize {
+                self.entities.append(.init(type: .uninfected))
+            }
+        }
     }
 }
 
+// MARK: -
+extension DashboardPresenter {
+    func select(at indexPath: IndexPath) {
+        if entities[indexPath.row].type == .uninfected {
+            epidemicOverallStatistic.uninfectedCount -= 1
+            epidemicOverallStatistic.infectedCount += 1
+            view?.updateMainStatistic(
+                uninfected: epidemicOverallStatistic.uninfectedCount.description,
+                infected: epidemicOverallStatistic.infectedCount.description
+            )
+        }
+    }
+}
+
+// MARK: - Timer
 private extension DashboardPresenter {
     func startTimer() {
         timer = Timer.scheduledTimer(

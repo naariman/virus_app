@@ -92,6 +92,10 @@ extension DashboardViewController: DashboardViewProtocol {
     func updateTimer(with text: String) {
         statisticsView.updateTimer(with: text)
     }
+    
+    func updateMainStatistic(uninfected: String, infected: String) {
+        statisticsView.updateMainStatistic(uninfected: uninfected, infected: infected)
+    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -123,6 +127,7 @@ extension DashboardViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
+        presenter?.select(at: indexPath)
         presenter?.entities[indexPath.row].type = .infected
     }
 

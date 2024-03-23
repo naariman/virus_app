@@ -18,6 +18,7 @@ protocol DashboardPresenterProtocol: AnyObject {
     func viewDidLoad()
     var entities: [EntityViewModel] { get set }
     var epidemicOverallStatistic: EpidemicOverallStatistic { get set }
+    func select(at indexPath: IndexPath)
 }
 
 //MARK: Interactor -
@@ -31,4 +32,5 @@ protocol DashboardViewProtocol: AnyObject {
     func configureStatisticsView(with model: EpidemicOverallStatistic)
     func update()
     func updateTimer(with text: String)
+    func updateMainStatistic(uninfected: String, infected: String)
 }
