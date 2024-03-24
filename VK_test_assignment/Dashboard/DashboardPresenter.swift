@@ -110,8 +110,8 @@ extension DashboardPresenter {
                 var infectionCount = 0
                 
                 for m in max(0, i - 1)..<min(self.entities.count, i + 2) {
-                    for n in max(0, j - 1)..<min(self.entities[m].count, j + 2) {
-                        if !(m == i && n == j) && newEntities[m][n].type == .uninfected {
+                    for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count) {
+                        if !(m == i && n == j) && newEntities.indices.contains(m) && newEntities[m].indices.contains(n) && newEntities[m][n].type == .uninfected {
                             if infectionCount < infectionFactor {
                                 newEntities[m][n].type = .infected
                                 infectionCount += 1
@@ -155,10 +155,13 @@ private extension DashboardPresenter {
                 if uninfectedCount != 0 {
                     self.view?.updateProgressView(Float(infectedCount) / Float(uninfectedCount))
                 } else {
-                    // handle the case when uninfectedCount is zero to avoid division by zero
                     self.view?.updateProgressView(0.0)
                 }
             }
+        
+        if uninfectedCount == 0 {
+            end()
+        }
     }
 }
 
@@ -192,7 +195,19 @@ private extension DashboardPresenter {
         }
     }
     
-    func stopSpreadingInfection() {
+    func stopTimers() {
+        timer?.invalidate()
         timerRecalculationInfected?.invalidate()
+    }
+}
+
+// MARK: End
+private extension DashboardPresenter {
+    func end() {
+        stopTimers()
+        let minutes = seconds / 60
+        let secondsValue = seconds % 60
+        let timeString = String(format: Constants.timerFormat, minutes, secondsValue)
+        view?.end(with: userInputModel, totalTime: timeString)
     }
 }

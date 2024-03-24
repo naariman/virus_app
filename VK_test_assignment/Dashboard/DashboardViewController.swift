@@ -21,18 +21,8 @@ final class DashboardViewController: UIViewController {
     private let emptyTopView: VKView = .init()
     private let statisticsView: DashboardStatisticsView = .init()
     private let playView: PlayView = .init()
-    
-    private let scrollableContainerView: UIView = {
-        let view = UIView()
-        return view
-    }()
 
     private lazy var zoomButtonsView: ZoomButtonsView = .init()
-    
-    private let scrollView: UIScrollView = {
-       let scrollView = UIScrollView()
-        return scrollView
-    }()
     
     lazy private var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
@@ -61,29 +51,15 @@ final class DashboardViewController: UIViewController {
 
 private extension DashboardViewController {
     func setupUI() {
-        let scrollView = UIScrollView(frame: view.bounds)
-        scrollView.delegate = self
-        scrollView.minimumZoomScale = Constants.minimumZoomScale
-        scrollView.maximumZoomScale = Constants.maximumZoomScale
-        view.addSubview(scrollView)
         view.backgroundColor = .dashboardBackground
+        
         view.addSubviews(
             emptyTopView,
             statisticsView,
+            collectionView,
             playView,
             zoomButtonsView
         )
-        scrollView.addSubview(scrollableContainerView)
-        scrollableContainerView.addSubview(collectionView)
-        scrollableContainerView.frame = scrollView.bounds
-        collectionView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-
-        zoomButtonsView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-16)
-        }
         
         emptyTopView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -96,20 +72,28 @@ private extension DashboardViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(60)
         }
+    
+        collectionView.snp.makeConstraints { make in
+            make.top.equalTo(statisticsView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(playView.snp.top)
+        }
+
+        zoomButtonsView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
+        }
+        
         playView.snp.makeConstraints { make in
             make.height.equalTo(85)
             make.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
-//        collectionView.snp.makeConstraints { make in
-//            make.top.equalTo(statisticsView.snp.bottom).offset(8)
-//            make.bottom.equalTo(playView.snp.top).offset(-8)
-//            make.leading.trailing.equalToSuperview().inset(8)
-//            make.center.equalToSuperview()
-//        }
+        zoomButtonsView.delegate = self
     }
 }
 
+// MARK: - DashboardViewProtocol
 extension DashboardViewController: DashboardViewProtocol {
     func update() {
         collectionView.reloadData()
@@ -125,6 +109,18 @@ extension DashboardViewController: DashboardViewProtocol {
     
     func updateProgressView(_ progress: Float) {
         playView.updateProgress(progress)
+    }
+    
+    func end(with model: UserInputModel, totalTime: String) {
+        let endView = SimulationEndView()
+        view.addSubview(endView)
+        UIView.animate(withDuration: 0.3) {
+            endView.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            endView.layoutIfNeeded()
+        }
+        endView.configure(model: model, totalTime: totalTime)
     }
 }
 
@@ -184,14 +180,12 @@ extension DashboardViewController: UICollectionViewDelegateFlowLayout {
     }
 }
 
-// MARK: - UIScrollView
-extension DashboardViewController: UIScrollViewDelegate {
-    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-           return scrollableContainerView
-       }
-       
-//       func scrollViewDidZoom(_ scrollView: UIScrollView) {
-//           // Обновление расположения ячеек при изменении масштаба
-//           updateCellLayout()
-//       }
+extension DashboardViewController: ZoomButtonsViewDelegate {
+    func zoomInDidTap() {
+        print("1")
+    }
+    
+    func zoomOutDidTap() {
+        print("2")
+    }
 }

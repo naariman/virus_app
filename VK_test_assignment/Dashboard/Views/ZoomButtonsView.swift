@@ -7,7 +7,14 @@
 
 import UIKit
 
+protocol ZoomButtonsViewDelegate: AnyObject {
+    func zoomInDidTap()
+    func zoomOutDidTap()
+}
+
 final class ZoomButtonsView: UIView {
+    
+    weak var delegate: ZoomButtonsViewDelegate?
     
     private let containerView: UIStackView = {
        let stackView = UIStackView()
@@ -53,8 +60,6 @@ final class ZoomButtonsView: UIView {
         return button
     }()
     
-    var zoomInButtonTap: (() -> ())?
-    var zoomOutButtonTap: (() -> ())?
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -98,11 +103,11 @@ final class ZoomButtonsView: UIView {
     
     @objc
     private func zoomInButtonDidTap() {
-        zoomInButtonTap?()
+        delegate?.zoomInDidTap()
     }
     
     @objc
     private func zoomOutButtonDidTap() {
-        zoomOutButtonTap?()
+        delegate?.zoomOutDidTap()
     }
 }
