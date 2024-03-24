@@ -14,6 +14,7 @@ private struct Constants {
     static var itemSize = 32
     static let maxItemSize = 48
     static let minItemSize = 12
+    static var itemSpacing = 10.0
 }
 
 final class DashboardViewController: UIViewController {
@@ -30,7 +31,7 @@ final class DashboardViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.estimatedItemSize = CGSize(width: Constants.itemSize, height: Constants.itemSize)
-        layout.minimumLineSpacing = 10  // Измените это значение по вашему усмотрению для настройки промежутков между ячейками
+        layout.minimumLineSpacing = Constants.itemSpacing
            layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         let collectionView = UICollectionView(
             frame: .zero,
@@ -39,6 +40,7 @@ final class DashboardViewController: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(GeneralCell.self)
         return collectionView
     }()
@@ -178,33 +180,34 @@ extension DashboardViewController: UICollectionViewDelegate {
 
 extension DashboardViewController: ZoomButtonsViewDelegate {
     func zoomInDidTap() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            guard Constants.itemSize <= Constants.maxItemSize else { return }
-            Constants.itemSize += 1
-            self.updateCellConstraints(with: Constants.itemSize)
-            self.collectionView.reloadData()
-        }
+        guard Constants.itemSize < Constants.maxItemSize else { return }
+        
+        Constants.itemSize += 1
+        Constants.itemSpacing += 0.3
+        updateCellConstraints(with: Constants.itemSize)
+        updateCollectionViewLayout()
     }
-    
+
     func zoomOutDidTap() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-            guard Constants.itemSize >= Constants.minItemSize else { return }
-            Constants.itemSize -= 1
-            self.updateCellConstraints(with: Constants.itemSize)
-            self.collectionView.reloadData()
-        }
+        guard Constants.itemSize > Constants.minItemSize else { return }
+        
+        Constants.itemSize -= 1
+        Constants.itemSpacing -= 0.3
+        updateCellConstraints(with: Constants.itemSize)
     }
-    
+
     func updateCellConstraints(with size: Int) {
-        DispatchQueue.main.async {
-            for section in 0..<self.collectionView.numberOfSections {
-                for item in 0..<self.collectionView.numberOfItems(inSection: section) {
-                    let indexPath = IndexPath(item: item, section: section)
-                    if let cell = self.collectionView.cellForItem(at: indexPath) as? GeneralCell {
-                        cell.updateConstraints(with: size)
-                    }
-                }
+        collectionView.visibleCells.forEach { cell in
+            if let generalCell = cell as? GeneralCell {
+                generalCell.updateConstraints(with: size)
             }
         }
+        updateCollectionViewLayout()
+        collectionView.collectionViewLayout.invalidateLayout()
+    }
+    
+    func updateCollectionViewLayout() {
+        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
+           layout?.minimumLineSpacing = Constants.itemSpacing
     }
 }
