@@ -20,7 +20,8 @@ final class ImageWithTextHorizontal: UIView {
         font: .systemFont(
             ofSize: 14,
             weight: .semibold
-        )
+        ),
+        color: .txt
     )
     private let imageView: UIImageView = {
        let imageView = UIImageView()

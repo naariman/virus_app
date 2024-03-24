@@ -15,8 +15,8 @@ final class DashboardStatisticsView: VKView {
         static let recalculationInfectedViewImage = AppImage.time.uiImage
     }
     
-    private let groupSizeView: ImageWithTextHorizontal = .init()
-    private let infectionFactorView: ImageWithTextHorizontal = .init()
+    private let uninfectedView: ImageWithTextHorizontal = .init()
+    private let infectedView: ImageWithTextHorizontal = .init()
     private let timerView: ImageWithTextHorizontal = .init()
     
     private let mainStackView: UIStackView = {
@@ -48,11 +48,11 @@ final class DashboardStatisticsView: VKView {
     }
     
     func configure(with model: EpidemicOverallStatistic) {
-        groupSizeView.configure(
+        uninfectedView.configure(
             image: Constants.groupSizeViewImage ?? UIImage(),
             text: model.uninfectedCount.description
         )
-        infectionFactorView.configure(
+        infectedView.configure(
             image: Constants.infectionFactorViewImage ?? UIImage(),
             text: model.infectedCount.description
         )
@@ -60,6 +60,16 @@ final class DashboardStatisticsView: VKView {
             image: Constants.recalculationInfectedViewImage ?? UIImage(),
             text: "00:00"
         )
+    }
+    
+    
+    func updateTimer(with text: String) {
+        timerView.updateText(with: text)
+    }
+    
+    func updateMainStatistic(uninfected: String, infected: String) {
+        uninfectedView.updateText(with: uninfected)
+        infectedView.updateText(with: infected)
     }
 }
 
@@ -71,12 +81,12 @@ private extension DashboardStatisticsView {
         mainStackView.snp.makeConstraints { make in
             make.height.equalTo(48)
             make.top.equalToSuperview()
-            make.leading.trailing.equalToSuperview().inset(48)
+            make.leading.trailing.equalToSuperview().inset(32)
         }
         mainStackView.addArrangedSubviews(
-            groupSizeView,
-            infectionFactorView,
-            timerView
+            timerView,
+            uninfectedView,
+            infectedView
         )
     }
 }

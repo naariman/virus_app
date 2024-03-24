@@ -34,6 +34,16 @@ final class GeneralCell: UICollectionViewCell,
     func configure(entity: EntityViewModel) {
         imageView.image = entity.icon
     }
+    
+    func updateConstraints(with size: Int) {
+        
+        UIView.animate(withDuration: 0.1) {
+            self.imageView.snp.updateConstraints { make in
+                make.size.equalTo(size)
+            }
+            self.layoutIfNeeded()
+        }
+    }
 }
 
 private extension GeneralCell {

@@ -43,6 +43,9 @@
 		9E4629342BAE0CFC00E0F98B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */; };
 		9E4629372BAE163F00E0F98B /* GeneralCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */; };
 		9E4629392BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629382BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift */; };
+		9E922D832BAED8F000ECD055 /* InfectionSpreadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */; };
+		9E922D892BAF8E1000ECD055 /* SimulationEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */; };
+		9E922D8C2BAF950B00ECD055 /* SimulationEndModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -82,6 +85,9 @@
 		9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCellViewModel.swift; sourceTree = "<group>"; };
 		9E4629382BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpidemicOverallStatistic.swift; sourceTree = "<group>"; };
+		9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfectionSpreadManager.swift; sourceTree = "<group>"; };
+		9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEndView.swift; sourceTree = "<group>"; };
+		9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEndModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -175,6 +181,7 @@
 		9E4628FF2BAD80D400E0F98B /* Core */ = {
 			isa = PBXGroup;
 			children = (
+				9E922D812BAED8DA00ECD055 /* Services */,
 				9E4629292BADF26A00E0F98B /* Animations */,
 				9E4629222BADC98200E0F98B /* AppImage */,
 				9E46291C2BADBFDA00E0F98B /* Helper */,
@@ -231,6 +238,7 @@
 				9E4629202BADC84200E0F98B /* DashboardStatisticsView.swift */,
 				9E4629272BADE33400E0F98B /* PlayView.swift */,
 				9E46292C2BAE00EB00E0F98B /* ZoomButtonsView.swift */,
+				9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -263,8 +271,17 @@
 			isa = PBXGroup;
 			children = (
 				9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */,
+				9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9E922D812BAED8DA00ECD055 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -360,12 +377,15 @@
 				9E4629242BADC98D00E0F98B /* AppImage.swift in Sources */,
 				9E46290B2BAD8B4800E0F98B /* VKView.swift in Sources */,
 				9E4628FB2BAD7C6000E0F98B /* DashboardRouter.swift in Sources */,
+				9E922D832BAED8F000ECD055 /* InfectionSpreadManager.swift in Sources */,
 				9E4629182BAD9CD600E0F98B /* VKButton.swift in Sources */,
 				9E4629262BADCF4400E0F98B /* VKImageWithText.swift in Sources */,
 				9E4629092BAD8A5400E0F98B /* VKLabel.swift in Sources */,
 				9E46290F2BAD8DAD00E0F98B /* UIView+Extension.swift in Sources */,
 				9E4629162BAD92F700E0F98B /* UIStackView+Extension.swift in Sources */,
 				9E4628FE2BAD7C6000E0F98B /* DashboardInteractor.swift in Sources */,
+				9E922D892BAF8E1000ECD055 /* SimulationEndView.swift in Sources */,
+				9E922D8C2BAF950B00ECD055 /* SimulationEndModel.swift in Sources */,
 				9E46292F2BAE0AA900E0F98B /* ReusableView.swift in Sources */,
 				9E4629282BADE33400E0F98B /* PlayView.swift in Sources */,
 				9E4628FD2BAD7C6000E0F98B /* DashboardProtocols.swift in Sources */,
@@ -526,6 +546,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -553,6 +574,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

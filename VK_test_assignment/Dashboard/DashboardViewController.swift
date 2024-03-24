@@ -10,28 +10,32 @@
 
 import UIKit
 
+private struct Constants {
+    static var itemSize = 32
+    static let maxItemSize = 48
+    static let minItemSize = 12
+}
+
 final class DashboardViewController: UIViewController {
 	var presenter: DashboardPresenterProtocol?
-    private let emptyTopView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        return view
-    }()
+    
+    private let emptyTopView: VKView = .init()
     private let statisticsView: DashboardStatisticsView = .init()
     private let playView: PlayView = .init()
-//    private let zoomButtonsView:
+
+    private lazy var zoomButtonsView: ZoomButtonsView = .init()
+    
     lazy private var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
-        
         )
-        layout.minimumLineSpacing = 0
+        layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
-        layout.itemSize = CGSize(width: 32, height: 32)
+        layout.minimumLineSpacing = 0   
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -53,11 +57,13 @@ final class DashboardViewController: UIViewController {
 private extension DashboardViewController {
     func setupUI() {
         view.backgroundColor = .dashboardBackground
+        
         view.addSubviews(
             emptyTopView,
             statisticsView,
+            collectionView,
             playView,
-            collectionView
+            zoomButtonsView
         )
         
         emptyTopView.snp.makeConstraints { make in
@@ -71,32 +77,71 @@ private extension DashboardViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(60)
         }
+    
+        collectionView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.top.equalTo(statisticsView.snp.bottom).offset(16)
+            make.bottom.equalTo(playView.snp.top)
+            make.leading.trailing.equalToSuperview()
+        }
+
+        zoomButtonsView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
+        }
+        
         playView.snp.makeConstraints { make in
-            make.height.equalTo(180)
+            make.height.equalTo(85)
             make.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()
         }
-        collectionView.snp.makeConstraints { make in
-            make.top.equalTo(statisticsView.snp.bottom).offset(8)
-            make.bottom.equalTo(playView.snp.top).offset(-8)
-            make.leading.trailing.equalToSuperview().inset(8)
-        }
+        zoomButtonsView.delegate = self
     }
 }
 
+// MARK: - DashboardViewProtocol
 extension DashboardViewController: DashboardViewProtocol {
     func update() {
         collectionView.reloadData()
+    }
+    
+    func updateTimer(with text: String) {
+        statisticsView.updateTimer(with: text)
+    }
+    
+    func updateMainStatistic(uninfected: String, infected: String) {
+        statisticsView.updateMainStatistic(uninfected: uninfected, infected: infected)
+    }
+    
+    func updateProgressView(_ progress: Float) {
+        playView.updateProgress(progress)
+    }
+    
+    func end(with model: SimulationEndModel) {
+        collectionView.isUserInteractionEnabled = false
+        let endView = SimulationEndView()
+        view.addSubview(endView)
+        UIView.animate(withDuration: 0.3) {
+            endView.snp.makeConstraints { make in
+                make.center.equalToSuperview()
+            }
+            endView.layoutIfNeeded()
+        }
+        endView.configure(with: model)
     }
 }
 
 // MARK: - UICollectionViewDataSource
 extension DashboardViewController: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        presenter?.entities.count ?? 0
+    }
+    
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        presenter?.entities.count ?? 0
+        presenter?.entities[section].count ?? 0
     }
     
     func collectionView(
@@ -105,7 +150,7 @@ extension DashboardViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let presenter else { return UICollectionViewCell() }
         let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-        cell.configure(entity: presenter.entities[indexPath.row])
+        cell.configure(entity: presenter.entities[indexPath.section][indexPath.row])
         return cell
     }
     
@@ -119,19 +164,49 @@ extension DashboardViewController: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        presenter?.entities[indexPath.row].type = .infected
+        presenter?.select(at: indexPath)
+        presenter?.entities[indexPath.section][indexPath.row].type = .infected
+        presenter?.spreadInfection()
     }
-
+    
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: Constants.itemSize, height: Constants.itemSize)
+    }
 }
 
 // MARK: - UICollectionViewFlowLayoutDelegate
 extension DashboardViewController: UICollectionViewDelegateFlowLayout {
-//    func collectionView(
-//        _ collectionView: UICollectionView,
-//        layout collectionViewLayout: UICollectionViewLayout,
-//        sizeForItemAt indexPath: IndexPath
-//    ) -> CGSize {
-//        let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-//        
-//    }
+   
+}
+
+extension DashboardViewController: ZoomButtonsViewDelegate {
+    func zoomInDidTap() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard Constants.itemSize <= Constants.maxItemSize else { return }
+            Constants.itemSize += 1
+            self.updateCellConstraints(with: Constants.itemSize)
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func zoomOutDidTap() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard Constants.itemSize >= Constants.minItemSize else { return }
+            Constants.itemSize -= 1
+            self.updateCellConstraints(with: Constants.itemSize)
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func updateCellConstraints(with size: Int) {
+        for cell in collectionView.visibleCells {
+            if let generalCell = cell as? GeneralCell {
+                generalCell.updateConstraints(with: size)
+            }
+        }
+    }
 }

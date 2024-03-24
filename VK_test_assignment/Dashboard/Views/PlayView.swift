@@ -22,25 +22,28 @@ final class PlayView: VKView {
         return imageView
     }()
     
+    private var progressView: UIProgressView = {
+        var view = UIProgressView()
+        view.progressTintColor = .systemGreen
+        view.layer.cornerRadius = 8
+        view.clipsToBounds = true
+        return view
+    }()
+    
     var buttonDidTap: (() -> ())?
     
-    override init(
-        backgroundColor: UIColor = .white,
-        cornerRadius: CGFloat = 0,
-        borderColor: UIColor = .clear,
-        borderWidth: CGFloat = 0, maskToBounds: Bool = true
-    ) {
-        super.init(
-            backgroundColor: backgroundColor, 
-            cornerRadius: cornerRadius,
-            borderColor: borderColor,
-            borderWidth: borderWidth
-        )
+    init() {
+        super.init()
         setupUI()
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func updateProgress(_ progress: Float) {
+        progressView.setProgress(progress, animated: true)
     }
 }
 
@@ -50,15 +53,22 @@ private extension PlayView {
         layer.cornerRadius = 38
         layer.maskedCorners = [.layerMaxXMinYCorner]
         layer.borderColor = UIColor.txt.cgColor
-        addSubviews(virusImageView)
+        addSubviews(
+            virusImageView,
+            progressView
+        )
         virusImageView.snp.makeConstraints { make in
-            make.top.equalTo(8)
-            make.leading.equalTo(54)
-            make.size.equalTo(64)
+            make.centerY.equalToSuperview()
+            make.leading.equalTo(16)
+            make.size.equalTo(54)
         }
-    }
-    
-    func configureData() {
         
+        progressView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.height.equalTo(16)
+            make.leading.equalTo(virusImageView.snp.trailing).offset(16)
+            make.trailing.equalToSuperview().inset(32)
+        }
+        Animations.rotateViewWithPulse(virusImageView)
     }
 }
