@@ -27,15 +27,14 @@ final class DashboardViewController: UIViewController {
     
     lazy private var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0 
+        layout.estimatedItemSize = CGSize(width: Constants.itemSize, height: Constants.itemSize)
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
         )
-        layout.scrollDirection = .horizontal
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0   
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self

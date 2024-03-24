@@ -43,11 +43,15 @@ final class DashboardPresenter: DashboardPresenterProtocol {
         self.interactor = interactor
         self.router = router
         self.userInputModel = model
-        epidemicOverallStatistic = .init(uninfectedCount: model.groupSize)
+        epidemicOverallStatistic = .init(
+            uninfectedCount: model.groupSize
+        )
     }
     
     func viewDidLoad() {
-        view?.configureStatisticsView(with: epidemicOverallStatistic)
+        view?.configureStatisticsView(
+            with: epidemicOverallStatistic
+        )
         entitiesInitialProcess()
     }
     
@@ -114,7 +118,7 @@ extension DashboardPresenter {
             for (i, j) in infectedCells {
                 var infectionCount = 0
                 for m in max(0, i - 1)..<min(self.entities.count, i + 2) {
-                    for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count - 1) {
+                    for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count) {
                         if !(m == i && n == j) && newEntities.indices.contains(m) && newEntities[m].indices.contains(n) && newEntities[m][n].type == .uninfected {
                             if infectionCount < infectionFactor {
                                 newEntities[m][n].type = .infected
@@ -183,10 +187,7 @@ private extension DashboardPresenter {
     
     @objc func updateTimer() {
         seconds += 1
-        let minutes = seconds / 60
-        let secondsValue = seconds % 60
-        let timeString = String(format: Constants.timerFormat, minutes, secondsValue)
-        view?.updateTimer(with: timeString)
+        view?.updateTimer(with: getSecondsString())
     }
     
     func startSpreadingInfection(every interval: TimeInterval) {
@@ -205,16 +206,25 @@ private extension DashboardPresenter {
     }
 }
 
+private extension DashboardPresenter {
+    func getSecondsString() -> String {
+        let minutes = seconds / 60
+        let secondsValue = seconds % 60
+        let timeString = String(
+            format: Constants.timerFormat,
+            minutes, secondsValue
+        )
+        return timeString
+    }
+}
+
 // MARK: End
 private extension DashboardPresenter {
     func end() {
         stopTimers()
-        let minutes = seconds / 60
-        let secondsValue = seconds % 60
-        let timeString = String(format: Constants.timerFormat, minutes, secondsValue)
         let model: SimulationEndModel = .init(
             userInputModel: userInputModel,
-            totalTime: timeString,
+            totalTime: getSecondsString(),
             tapAmount: tapAmount
         )
         view?.end(with: model)
