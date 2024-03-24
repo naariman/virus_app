@@ -165,8 +165,6 @@ extension DashboardViewController: UICollectionViewDelegate {
         didSelectItemAt indexPath: IndexPath
     ) {
         presenter?.select(at: indexPath)
-        presenter?.entities[indexPath.section][indexPath.row].type = .infected
-        presenter?.spreadInfection()
     }
     
     func collectionView(
@@ -176,11 +174,6 @@ extension DashboardViewController: UICollectionViewDelegate {
     ) -> CGSize {
         return CGSize(width: Constants.itemSize, height: Constants.itemSize)
     }
-}
-
-// MARK: - UICollectionViewFlowLayoutDelegate
-extension DashboardViewController: UICollectionViewDelegateFlowLayout {
-   
 }
 
 extension DashboardViewController: ZoomButtonsViewDelegate {
@@ -212,5 +205,6 @@ extension DashboardViewController: ZoomButtonsViewDelegate {
                     }
                 }
             }
-        }    }
+        }
+    }
 }

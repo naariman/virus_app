@@ -19,7 +19,6 @@ protocol DashboardPresenterProtocol: AnyObject {
     var entities: [[EntityViewModel]] { get set }
     var epidemicOverallStatistic: EpidemicOverallStatistic { get set }
     func select(at indexPath: IndexPath)
-    func spreadInfection()
 }
 
 //MARK: Interactor -

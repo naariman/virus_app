@@ -84,23 +84,31 @@ extension DashboardPresenter {
     func select(at indexPath: IndexPath) {
         if isFirstSelection {
             startTimer()
+            isFirstSelection = false
         }
-        isFirstSelection = false
-        if entities[indexPath.section][indexPath.item].type == .uninfected {
-            tapAmount += 1 
-            epidemicOverallStatistic.uninfectedCount -= 1
-            epidemicOverallStatistic.infectedCount += 1
-            view?.updateMainStatistic(
-                uninfected: epidemicOverallStatistic.uninfectedCount.description,
-                infected: epidemicOverallStatistic.infectedCount.description
-            )
+        
+        let selectedEntity = entities[indexPath.section][indexPath.item]
+        
+        guard selectedEntity.type == .uninfected else {
+            return
         }
-        startSpreadingInfection(
-            every: TimeInterval(userInputModel.recalculationInfected)
+        
+        tapAmount += 1
+        epidemicOverallStatistic.uninfectedCount -= 1
+        epidemicOverallStatistic.infectedCount += 1
+        
+        view?.updateMainStatistic(
+            uninfected: epidemicOverallStatistic.uninfectedCount.description,
+            infected: epidemicOverallStatistic.infectedCount.description
+        )
+        
+        entities[indexPath.section][indexPath.item].type = .infected
+        spreadInfection()
+        startSpreadingInfection(every: TimeInterval(userInputModel.recalculationInfected)
         )
     }
     
-    func spreadInfection() {
+    private func spreadInfection() {
         DispatchQueue.global().async {
             var newEntities = self.entities
             let infectionFactor = self.userInputModel.infectionFactor
