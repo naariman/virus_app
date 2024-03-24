@@ -29,8 +29,9 @@ final class DashboardViewController: UIViewController {
         let layout: UICollectionViewFlowLayout = .init()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0 
         layout.estimatedItemSize = CGSize(width: Constants.itemSize, height: Constants.itemSize)
+        layout.minimumLineSpacing = 10  // Измените это значение по вашему усмотрению для настройки промежутков между ячейками
+           layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
