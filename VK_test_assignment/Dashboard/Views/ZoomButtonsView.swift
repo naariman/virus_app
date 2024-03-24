@@ -13,7 +13,6 @@ protocol ZoomButtonsViewDelegate: AnyObject {
 }
 
 final class ZoomButtonsView: UIView {
-    
     weak var delegate: ZoomButtonsViewDelegate?
     
     private let containerView: UIStackView = {
@@ -23,8 +22,8 @@ final class ZoomButtonsView: UIView {
         return stackView
     }()
     
-    private let zoomInView: UIView = {
-        let view = UIView()
+    private let zoomInView: VKView = {
+        let view = VKView()
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
@@ -33,8 +32,8 @@ final class ZoomButtonsView: UIView {
         return view
     }()
     
-    private let zoomOutView: UIView = {
-        let view = UIView()
+    private let zoomOutView: VKView = {
+        let view = VKView()
         view.backgroundColor = .white
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOpacity = 0.5
@@ -46,7 +45,6 @@ final class ZoomButtonsView: UIView {
     lazy private var zoomInButton: UIButton = {
         let button = UIButton()
         button.setImage(.zoomIn, for: .normal)
-        button.addTarget(self, action: #selector(zoomInButtonDidTap), for: .touchUpInside)
         button.backgroundColor = .white
         return button
     }()
@@ -54,12 +52,10 @@ final class ZoomButtonsView: UIView {
     lazy private var zoomOutButton: UIButton = {
         let button = UIButton()
         button.setImage(.zoomOut, for: .normal)
-        button.addTarget(self, action: #selector(zoomOutButtonDidTap), for: .touchUpInside)
         button.backgroundColor = .white
-        button.layer.cornerRadius = .pi / 2
         return button
     }()
-    
+
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -99,15 +95,22 @@ final class ZoomButtonsView: UIView {
             zoomInView,
             zoomOutView
         )
+        let zoomInLong = UILongPressGestureRecognizer(target: self, action: #selector(zoomIn))
+        let zoomOutLong = UILongPressGestureRecognizer(target: self, action: #selector(zoomOut))
+        zoomInButton.addGestureRecognizer(zoomInLong)
+        zoomOutButton.addGestureRecognizer(zoomOutLong)
     }
     
-    @objc
-    private func zoomInButtonDidTap() {
-        delegate?.zoomInDidTap()
+    @objc private func zoomOut(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state != .ended {
+            delegate?.zoomOutDidTap()
+        }
     }
     
-    @objc
-    private func zoomOutButtonDidTap() {
-        delegate?.zoomOutDidTap()
+    @objc private func zoomIn(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        if gestureRecognizer.state != .ended {
+            delegate?.zoomInDidTap()
+        }
     }
+    
 }

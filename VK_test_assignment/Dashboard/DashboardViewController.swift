@@ -11,8 +11,9 @@
 import UIKit
 
 private struct Constants {
-    static let minimumZoomScale: CGFloat = 0.5
-    static let maximumZoomScale: CGFloat = 5.0
+    static var itemSize = 32
+    static let maxItemSize = 48
+    static let minItemSize = 12
 }
 
 final class DashboardViewController: UIViewController {
@@ -31,6 +32,10 @@ final class DashboardViewController: UIViewController {
             frame: .zero,
             collectionViewLayout: layout
         )
+        layout.scrollDirection = .horizontal
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0   
+        layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -74,9 +79,10 @@ private extension DashboardViewController {
         }
     
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(statisticsView.snp.bottom)
-            make.leading.trailing.equalToSuperview()
+            make.center.equalToSuperview()
+            make.top.equalTo(statisticsView.snp.bottom).offset(16)
             make.bottom.equalTo(playView.snp.top)
+            make.leading.trailing.equalToSuperview()
         }
 
         zoomButtonsView.snp.makeConstraints { make in
@@ -111,7 +117,8 @@ extension DashboardViewController: DashboardViewProtocol {
         playView.updateProgress(progress)
     }
     
-    func end(with model: UserInputModel, totalTime: String) {
+    func end(with model: SimulationEndModel) {
+        collectionView.isUserInteractionEnabled = false
         let endView = SimulationEndView()
         view.addSubview(endView)
         UIView.animate(withDuration: 0.3) {
@@ -120,7 +127,7 @@ extension DashboardViewController: DashboardViewProtocol {
             }
             endView.layoutIfNeeded()
         }
-        endView.configure(model: model, totalTime: totalTime)
+        endView.configure(with: model)
     }
 }
 
@@ -162,30 +169,44 @@ extension DashboardViewController: UICollectionViewDelegate {
         presenter?.spreadInfection()
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 32, height: 32)
+    func collectionView(
+        _ collectionView: UICollectionView,
+        layout collectionViewLayout: UICollectionViewLayout,
+        sizeForItemAt indexPath: IndexPath
+    ) -> CGSize {
+        return CGSize(width: Constants.itemSize, height: Constants.itemSize)
     }
 }
 
 // MARK: - UICollectionViewFlowLayoutDelegate
 extension DashboardViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        let cellWidth: CGFloat = 32.0
-               let horizontalSpacing: CGFloat = 10.0
-               let numberOfCells = presenter?.entities[section].count ?? 0
-               let totalCellWidth = cellWidth * CGFloat(numberOfCells)
-               let totalSpacingWidth = horizontalSpacing * CGFloat(max(numberOfCells - 1, 0))
-               let inset = max((collectionView.frame.width - (totalCellWidth + totalSpacingWidth)) / 2, 0)
-               return UIEdgeInsets(top: 0, left: inset, bottom: 0, right: inset)
-    }
+   
 }
 
 extension DashboardViewController: ZoomButtonsViewDelegate {
     func zoomInDidTap() {
-        print("1")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard Constants.itemSize <= Constants.maxItemSize else { return }
+            Constants.itemSize += 1
+            self.updateCellConstraints(with: Constants.itemSize)
+            self.collectionView.reloadData()
+        }
     }
     
     func zoomOutDidTap() {
-        print("2")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            guard Constants.itemSize >= Constants.minItemSize else { return }
+            Constants.itemSize -= 1
+            self.updateCellConstraints(with: Constants.itemSize)
+            self.collectionView.reloadData()
+        }
+    }
+    
+    func updateCellConstraints(with size: Int) {
+        for cell in collectionView.visibleCells {
+            if let generalCell = cell as? GeneralCell {
+                generalCell.updateConstraints(with: size)
+            }
+        }
     }
 }

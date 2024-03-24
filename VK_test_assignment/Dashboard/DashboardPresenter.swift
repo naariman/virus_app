@@ -18,7 +18,8 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     weak private var view: DashboardViewProtocol?
     var interactor: DashboardInteractorProtocol?
     private let router: DashboardWireframeProtocol
-    
+    private var isFirstSelection: Bool = true
+    private var tapAmount = 0
     private let userInputModel: UserInputModel
     var entities: [[EntityViewModel]] = [] {
         didSet {
@@ -48,7 +49,6 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     func viewDidLoad() {
         view?.configureStatisticsView(with: epidemicOverallStatistic)
         entitiesInitialProcess()
-        startTimer()
     }
     
 }
@@ -78,7 +78,12 @@ private extension DashboardPresenter {
 // MARK: -
 extension DashboardPresenter {
     func select(at indexPath: IndexPath) {
+        if isFirstSelection {
+            startTimer()
+        }
+        isFirstSelection = false
         if entities[indexPath.section][indexPath.item].type == .uninfected {
+            tapAmount += 1 
             epidemicOverallStatistic.uninfectedCount -= 1
             epidemicOverallStatistic.infectedCount += 1
             view?.updateMainStatistic(
@@ -108,7 +113,6 @@ extension DashboardPresenter {
             
             for (i, j) in infectedCells {
                 var infectionCount = 0
-                
                 for m in max(0, i - 1)..<min(self.entities.count, i + 2) {
                     for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count) {
                         if !(m == i && n == j) && newEntities.indices.contains(m) && newEntities[m].indices.contains(n) && newEntities[m][n].type == .uninfected {
@@ -153,9 +157,9 @@ private extension DashboardPresenter {
                     infected: infectedCount.description
                 )
                 if uninfectedCount != 0 {
-                    self.view?.updateProgressView(Float(infectedCount) / Float(uninfectedCount))
+                    self.view?.updateProgressView(Float(infectedCount) / Float(self.userInputModel.groupSize))
                 } else {
-                    self.view?.updateProgressView(0.0)
+                    self.view?.updateProgressView(1.0)
                 }
             }
         
@@ -208,6 +212,11 @@ private extension DashboardPresenter {
         let minutes = seconds / 60
         let secondsValue = seconds % 60
         let timeString = String(format: Constants.timerFormat, minutes, secondsValue)
-        view?.end(with: userInputModel, totalTime: timeString)
+        let model: SimulationEndModel = .init(
+            userInputModel: userInputModel,
+            totalTime: timeString,
+            tapAmount: tapAmount
+        )
+        view?.end(with: model)
     }
 }

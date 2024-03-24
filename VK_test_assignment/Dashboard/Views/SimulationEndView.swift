@@ -14,7 +14,7 @@ final class SimulationEndView: VKView {
         static let timeLabelSuffix = "Общее время заражения: "
         static let timeIntervalSuffix = "Частота заражения: "
         static let groupSizeSuffix = "Количество людей: "
-        static let infectionFactorSuffix = "Количество зараженных одним человеки: "
+        static let infectionFactorSuffix = "Количество зараженных нажатием: "
         static let buttonTitle = "Продолжить"
         static let seconds = " секунд"
     }
@@ -65,11 +65,11 @@ final class SimulationEndView: VKView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(model: UserInputModel, totalTime: String) {
-        groupSizeLabel.text = Constants.groupSizeSuffix + model.groupSize.description
-        totalTimeLabel.text = Constants.timeLabelSuffix + totalTime
-        timeIntervalLabel.text = Constants.timeIntervalSuffix + model.recalculationInfected.description + Constants.seconds
-        infectionFactorLabel.text = Constants.infectionFactorSuffix + model.infectionFactor.description
+    func configure(with model: SimulationEndModel) {
+        groupSizeLabel.text = Constants.groupSizeSuffix + model.userInputModel.groupSize.description
+        totalTimeLabel.text = Constants.timeLabelSuffix + model.totalTime
+        timeIntervalLabel.text = Constants.timeIntervalSuffix + model.userInputModel.recalculationInfected.description + Constants.seconds
+        infectionFactorLabel.text = Constants.infectionFactorSuffix + model.tapAmount.description
     }
     
     func setupUI() {

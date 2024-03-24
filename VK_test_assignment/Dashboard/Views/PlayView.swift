@@ -24,7 +24,7 @@ final class PlayView: VKView {
     
     private var progressView: UIProgressView = {
         var view = UIProgressView()
-        view.progressTintColor = ._7faa55
+        view.progressTintColor = .systemGreen
         view.layer.cornerRadius = 8
         view.clipsToBounds = true
         return view
@@ -32,19 +32,10 @@ final class PlayView: VKView {
     
     var buttonDidTap: (() -> ())?
     
-    override init(
-        backgroundColor: UIColor = .white,
-        cornerRadius: CGFloat = 0,
-        borderColor: UIColor = .clear,
-        borderWidth: CGFloat = 0, maskToBounds: Bool = true
-    ) {
-        super.init(
-            backgroundColor: backgroundColor,
-            cornerRadius: cornerRadius,
-            borderColor: borderColor,
-            borderWidth: borderWidth
-        )
+    init() {
+        super.init()
         setupUI()
+
     }
     
     required init?(coder: NSCoder) {

@@ -8,6 +8,7 @@
 import Foundation
 
 struct SimulationEndModel {
-    let groupSize: String
-    let infectionTime: String
+    let userInputModel: UserInputModel
+    let totalTime: String
+    let tapAmount: Int
 }
