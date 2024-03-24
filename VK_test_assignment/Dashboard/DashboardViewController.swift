@@ -203,10 +203,14 @@ extension DashboardViewController: ZoomButtonsViewDelegate {
     }
     
     func updateCellConstraints(with size: Int) {
-        for cell in collectionView.visibleCells {
-            if let generalCell = cell as? GeneralCell {
-                generalCell.updateConstraints(with: size)
+        DispatchQueue.main.async {
+            for section in 0..<self.collectionView.numberOfSections {
+                for item in 0..<self.collectionView.numberOfItems(inSection: section) {
+                    let indexPath = IndexPath(item: item, section: section)
+                    if let cell = self.collectionView.cellForItem(at: indexPath) as? GeneralCell {
+                        cell.updateConstraints(with: size)
+                    }
+                }
             }
-        }
-    }
+        }    }
 }

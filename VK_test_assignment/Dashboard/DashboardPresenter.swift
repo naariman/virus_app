@@ -114,7 +114,7 @@ extension DashboardPresenter {
             for (i, j) in infectedCells {
                 var infectionCount = 0
                 for m in max(0, i - 1)..<min(self.entities.count, i + 2) {
-                    for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count) {
+                    for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count - 1) {
                         if !(m == i && n == j) && newEntities.indices.contains(m) && newEntities[m].indices.contains(n) && newEntities[m][n].type == .uninfected {
                             if infectionCount < infectionFactor {
                                 newEntities[m][n].type = .infected
