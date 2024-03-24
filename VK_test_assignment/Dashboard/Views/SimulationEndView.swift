@@ -14,7 +14,7 @@ final class SimulationEndView: VKView {
         static let timeLabelSuffix = "Общее время заражения: "
         static let timeIntervalSuffix = "Частота заражения: "
         static let groupSizeSuffix = "Количество людей: "
-        static let infectionFactorSuffix = "Количество людей зараженный одним человеки: "
+        static let infectionFactorSuffix = "Количество зараженных одним человеки: "
         static let buttonTitle = "Продолжить"
         static let seconds = " секунд"
     }
@@ -48,6 +48,11 @@ final class SimulationEndView: VKView {
         font: .systemFont(ofSize: 12, weight: .semibold),
         color: .txt
     )
+    
+    private var infectionFactorLabel: VKLabel = .init(
+        font: .systemFont(ofSize: 12, weight: .semibold),
+        color: .txt
+    )
 
     private let continueButton: VKButton = .init()
     
@@ -64,20 +69,26 @@ final class SimulationEndView: VKView {
         groupSizeLabel.text = Constants.groupSizeSuffix + model.groupSize.description
         totalTimeLabel.text = Constants.timeLabelSuffix + totalTime
         timeIntervalLabel.text = Constants.timeIntervalSuffix + model.recalculationInfected.description + Constants.seconds
+        infectionFactorLabel.text = Constants.infectionFactorSuffix + model.infectionFactor.description
     }
     
     func setupUI() {
+        clipsToBounds = false
         layer.cornerRadius = 12
+        layer.shadowColor = UIColor.txt.cgColor
+        layer.shadowOpacity = 0.5
+        layer.shadowOffset = .zero
+        layer.shadowRadius = 15
         addSubviews(titleLabel, continueButton, mainStackView)
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(8)
+            make.top.equalTo(16)
             make.leading.trailing.equalToSuperview().inset(16)
         }
         
         continueButton.snp.makeConstraints { make in
             make.bottom.equalTo(-16)
             make.leading.trailing.equalToSuperview().inset(16)
-            make.height.equalTo(32)
+            make.height.equalTo(40)
         }
         
         mainStackView.snp.makeConstraints { make in
@@ -89,7 +100,8 @@ final class SimulationEndView: VKView {
         mainStackView.addArrangedSubviews(
             groupSizeLabel,
             totalTimeLabel,
-            timeIntervalLabel
+            timeIntervalLabel,
+            infectionFactorLabel
         )
         
         continueButton.setTitle(Constants.buttonTitle, for: .normal)
