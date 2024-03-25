@@ -95,22 +95,17 @@ final class ZoomButtonsView: UIView {
             zoomInView,
             zoomOutView
         )
-        let zoomInLong = UILongPressGestureRecognizer(target: self, action: #selector(zoomIn))
-        let zoomOutLong = UILongPressGestureRecognizer(target: self, action: #selector(zoomOut))
-        zoomInButton.addGestureRecognizer(zoomInLong)
-        zoomOutButton.addGestureRecognizer(zoomOutLong)
+        zoomInButton.addTarget(self, action: #selector(zoomIn), for: .touchUpInside)
+        zoomOutButton.addTarget(self, action: #selector(zoomOut), for: .touchUpInside)
     }
     
-    @objc private func zoomOut(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        if gestureRecognizer.state != .ended {
-            delegate?.zoomOutDidTap()
-        }
+    @objc
+    private func zoomIn() {
+        delegate?.zoomInDidTap()
     }
-    
-    @objc private func zoomIn(_ gestureRecognizer: UILongPressGestureRecognizer) {
-        if gestureRecognizer.state != .ended {
-            delegate?.zoomInDidTap()
-        }
+    @objc
+    private func zoomOut() {
+        delegate?.zoomOutDidTap()
     }
     
 }

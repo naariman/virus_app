@@ -103,6 +103,7 @@ private extension DashboardPresenter {
         at point: (row: Int, col: Int),
         withInfectionFactor factor: Int
     ) {
+        tapAmount += 1
         matrix[point.col][point.row] = true
         infectedCount += 1
         uninfectedCount -= 1

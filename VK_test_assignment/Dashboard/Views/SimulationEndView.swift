@@ -16,7 +16,7 @@ final class SimulationEndView: VKView {
         static let updateFrequencySuffix = "Частота обновления: "
         static let infectedWithTapSuffix = "Количество зараженных нажатием: "
         static let infectionByOne = "Зараженные одним: "
-        static let buttonTitle = "Продолжить"
+        static let buttonTitle = "Завершить"
         static let seconds = " секунд(а)"
     }
     

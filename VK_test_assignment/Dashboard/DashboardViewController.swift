@@ -10,42 +10,52 @@
 
 import UIKit
 
-private struct Constants {
-    static var itemSize = 32
-    static let maxItemSize = 48
-    static let minItemSize = 12
-    static var itemSpacing = 10.0
-}
-
 final class DashboardViewController: UIViewController {
-	var presenter: DashboardPresenterProtocol?
+    private struct Constants {
+        static var itemSize = 32
+        static let maxItemSize = 48
+        static let minItemSize = 12
+        static var itemSpacing = 10.0
+        
+        static var zoomScale: CGFloat = 1.0
+        static let minZoom: CGFloat = 0.5
+        static let maxZoom: CGFloat = 1.5
+    }
+    
+    var presenter: DashboardPresenterProtocol?
     
     private let emptyTopView: VKView = .init()
     private let statisticsView: DashboardStatisticsView = .init()
     private let playView: PlayView = .init()
-
     private lazy var zoomButtonsView: ZoomButtonsView = .init()
+    
+    private lazy var scrollView: UIScrollView = {
+       let scrollView = UIScrollView()
+        scrollView.delegate = self
+        scrollView.minimumZoomScale = 0.5
+        scrollView.maximumZoomScale = 5.0
+        scrollView.zoomScale = 1.0
+        return scrollView
+    }()
     
     lazy private var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
-        layout.estimatedItemSize = CGSize(width: Constants.itemSize, height: Constants.itemSize)
-//        layout.minimumLineSpacing = Constants.itemSpacing
-//           layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        layout.minimumLineSpacing = 0
         let collectionView = UICollectionView(
-            frame: .zero,
+            frame: view.bounds,
             collectionViewLayout: layout
         )
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .clear
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(GeneralCell.self)
         return collectionView
     }()
     
-	override func viewDidLoad() {
+    override func viewDidLoad() {
         super.viewDidLoad()
         presenter?.viewDidLoad()
         setupUI()
@@ -57,15 +67,14 @@ final class DashboardViewController: UIViewController {
 }
 
 private extension DashboardViewController {
+   
     func setupUI() {
         view.backgroundColor = .dashboardBackground
-        
         view.addSubviews(
             emptyTopView,
             statisticsView,
             collectionView,
-            playView,
-            zoomButtonsView
+            playView
         )
         
         emptyTopView.snp.makeConstraints { make in
@@ -79,18 +88,6 @@ private extension DashboardViewController {
             make.leading.trailing.equalToSuperview()
             make.height.equalTo(60)
         }
-    
-        collectionView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.top.equalTo(statisticsView.snp.bottom).offset(16)
-            make.bottom.equalTo(playView.snp.top)
-            make.leading.trailing.equalToSuperview()
-        }
-
-        zoomButtonsView.snp.makeConstraints { make in
-            make.centerY.equalToSuperview()
-            make.trailing.equalToSuperview().offset(-16)
-        }
         
         playView.snp.makeConstraints { make in
             make.height.equalTo(85)
@@ -98,6 +95,23 @@ private extension DashboardViewController {
             make.leading.trailing.equalToSuperview()
         }
         zoomButtonsView.delegate = self
+        
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints { make in
+            make.top.equalTo(statisticsView.snp.bottom)
+            make.bottom.equalTo(playView.snp.top)
+            make.leading.trailing.equalToSuperview()
+        }
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.contentOffset = CGPoint(x: -view.safeAreaInsets.left, y: -view.safeAreaInsets.top)
+        scrollView.addSubview(collectionView)
+        
+        view.addSubview(zoomButtonsView)
+        zoomButtonsView.snp.makeConstraints { make in
+            make.centerY.equalToSuperview()
+            make.trailing.equalToSuperview().offset(-16)
+        }
+        
     }
 }
 
@@ -152,15 +166,13 @@ extension DashboardViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let presenter else { return UICollectionViewCell() }
         let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-        cell.configure(bool: presenter.matrix[indexPath.section][indexPath.row])
+        cell.configure(presenter.matrix[indexPath.section][indexPath.row])
         return cell
     }
-    
-    
 }
 
 // MARK: - UICollectionViewDelegate
-extension DashboardViewController: UICollectionViewDelegate {
+extension DashboardViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     func collectionView(
         _ collectionView: UICollectionView,
@@ -174,40 +186,33 @@ extension DashboardViewController: UICollectionViewDelegate {
         layout collectionViewLayout: UICollectionViewLayout,
         sizeForItemAt indexPath: IndexPath
     ) -> CGSize {
-        return CGSize(width: Constants.itemSize, height: Constants.itemSize)
+        let columns = Int((collectionView.bounds.width * Constants.zoomScale) / CGFloat(Constants.itemSize))
+        let rows = Int((collectionView.bounds.height * Constants.zoomScale) / CGFloat(Constants.itemSize))
+        
+        let width = collectionView.bounds.width / CGFloat(columns)
+        let height = collectionView.bounds.height / CGFloat(rows)
+        
+        return CGSize(width: width, height: height)
     }
+
 }
 
 extension DashboardViewController: ZoomButtonsViewDelegate {
+    
     func zoomInDidTap() {
-        guard Constants.itemSize < Constants.maxItemSize else { return }
-        
-        Constants.itemSize += 1
-        Constants.itemSpacing += 0.3
-        updateCellConstraints(with: Constants.itemSize)
-        updateCollectionViewLayout()
-    }
-
-    func zoomOutDidTap() {
-        guard Constants.itemSize > Constants.minItemSize else { return }
-        
-        Constants.itemSize -= 1
-        Constants.itemSpacing -= 0.3
-        updateCellConstraints(with: Constants.itemSize)
-    }
-
-    func updateCellConstraints(with size: Int) {
-        collectionView.visibleCells.forEach { cell in
-            if let generalCell = cell as? GeneralCell {
-                generalCell.updateConstraints(with: size)
-            }
-        }
-        updateCollectionViewLayout()
-        collectionView.collectionViewLayout.invalidateLayout()
+        scrollView.zoomScale += 0.2
     }
     
-    func updateCollectionViewLayout() {
-        let layout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout
-           layout?.minimumLineSpacing = Constants.itemSpacing
+    
+    func zoomOutDidTap() {
+        scrollView.zoomScale -= 0.2
     }
+}
+
+extension DashboardViewController: UIScrollViewDelegate {
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
+           return collectionView
+       }
+    
 }
