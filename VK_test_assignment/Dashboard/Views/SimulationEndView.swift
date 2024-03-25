@@ -11,12 +11,13 @@ final class SimulationEndView: VKView {
     
     private struct Constants {
         static let title = "Симуляция окончена, \n вот результаты!"
-        static let timeLabelSuffix = "Общее время заражения: "
-        static let timeIntervalSuffix = "Частота заражения: "
         static let groupSizeSuffix = "Количество людей: "
-        static let infectionFactorSuffix = "Количество зараженных нажатием: "
-        static let buttonTitle = "Продолжить"
-        static let seconds = " секунд"
+        static let totalTimeLabelSuffix = "Общее время заражения: "
+        static let updateFrequencySuffix = "Частота обновления: "
+        static let infectedWithTapSuffix = "Количество зараженных нажатием: "
+        static let infectionByOne = "Зараженные одним: "
+        static let buttonTitle = "Завершить"
+        static let seconds = " секунд(а)"
     }
     
     private let titleLabel: VKLabel = .init(
@@ -44,12 +45,17 @@ final class SimulationEndView: VKView {
         color: .txt
     )
     
-    private var timeIntervalLabel: VKLabel = .init(
+    private var updateFrequencyLabel: VKLabel = .init(
         font: .systemFont(ofSize: 12, weight: .semibold),
         color: .txt
     )
     
-    private var infectionFactorLabel: VKLabel = .init(
+    private var infectedWithTapLabel: VKLabel = .init(
+        font: .systemFont(ofSize: 12, weight: .semibold),
+        color: .txt
+    )
+    
+    private var infectionByOneLabel: VKLabel = .init(
         font: .systemFont(ofSize: 12, weight: .semibold),
         color: .txt
     )
@@ -67,9 +73,10 @@ final class SimulationEndView: VKView {
     
     func configure(with model: SimulationEndModel) {
         groupSizeLabel.text = Constants.groupSizeSuffix + model.userInputModel.groupSize.description
-        totalTimeLabel.text = Constants.timeLabelSuffix + model.totalTime
-        timeIntervalLabel.text = Constants.timeIntervalSuffix + model.userInputModel.recalculationInfected.description + Constants.seconds
-        infectionFactorLabel.text = Constants.infectionFactorSuffix + model.tapAmount.description
+        totalTimeLabel.text = Constants.totalTimeLabelSuffix + model.totalTime
+        updateFrequencyLabel.text = Constants.updateFrequencySuffix + model.userInputModel.recalculationInfected.description + Constants.seconds
+        infectedWithTapLabel.text = Constants.infectedWithTapSuffix + model.tapAmount.description
+        infectionByOneLabel.text = Constants.infectionByOne + model.userInputModel.infectionFactor.description
     }
     
     func setupUI() {
@@ -100,8 +107,9 @@ final class SimulationEndView: VKView {
         mainStackView.addArrangedSubviews(
             groupSizeLabel,
             totalTimeLabel,
-            timeIntervalLabel,
-            infectionFactorLabel
+            updateFrequencyLabel,
+            infectedWithTapLabel,
+            infectionByOneLabel
         )
         
         continueButton.setTitle(Constants.buttonTitle, for: .normal)

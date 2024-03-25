@@ -36,22 +36,8 @@ final class GeneralCell: UICollectionViewCell,
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func configure(entity: EntityViewModel) {
-//        imageView.image =  ? AppImage.zombie.uiImage ?? UIImage() : AppImage.human.uiImage ?? UIImage()
-//    }
-    
-    func configure(bool: Bool) {
+    func configure(_ bool: Bool) {
         imageView.image = bool ? AppImage.zombie.uiImage ?? UIImage() : AppImage.human.uiImage ?? UIImage()
-    }
-    
-    func updateConstraints(with size: Int) {
-        
-        UIView.animate(withDuration: 0.1) {
-            self.imageView.snp.updateConstraints { make in
-                make.size.equalTo(size)
-            }
-            self.layoutIfNeeded()
-        }
     }
 }
 
@@ -59,14 +45,8 @@ private extension GeneralCell {
     func setupUI() {
         contentView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.size.equalTo(48)
+            make.edges.equalToSuperview()
+            make.size.equalTo(32)
         }
-    }
-}
-
-extension GeneralCell {
-    func selected() {
-        
     }
 }

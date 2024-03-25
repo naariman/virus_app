@@ -17,7 +17,6 @@ protocol DashboardWireframeProtocol: AnyObject {
 protocol DashboardPresenterProtocol: AnyObject {
     func viewDidLoad()
     var matrix: [[Bool]] { get set }
-    var epidemicOverallStatistic: EpidemicOverallStatistic { get set }
     func select(at indexPath: IndexPath)
 }
 

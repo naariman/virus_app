@@ -15,11 +15,11 @@ final class DataCollectionViewController: UIViewController,
     
     private struct Constants {
         static let virusImage = AppImage.virusThree.uiImage
-        static let groupSizeTitle = "Количество людей"
-        static let infectionFactorTitle = "Коэффициент заражаемости"
-        static let recalculationInfectedTitle = "Период пересчета"
+        static let groupSizeTitle = "Кол-во людей: [18, 128, 288, 338, 450, 578, 1250]"
+        static let infectionFactorTitle = "Коэффициент заражаемости: [ 1 - 10 ]"
+        static let recalculationInfectedTitle = "Период пересчета: [ 1 - 9 ]"
         static let continueButtonTitle = "Запустить моделирование"
-        static let groupSizePlaceholder = "Например, 1 000"
+        static let groupSizePlaceholder = "Например, 128"
         static let infectionFactorPlaceholder = "Сколько соседей может быть заражено"
         static let recalculationInfectedPlaceholder = "Например, 1 секунда"
         
