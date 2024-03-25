@@ -44,7 +44,6 @@
 		9E4629372BAE163F00E0F98B /* GeneralCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */; };
 		9E4629392BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629382BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift */; };
 		9E74E5D32BB1031B0092395F /* MatrixManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E74E5D22BB1031B0092395F /* MatrixManger.swift */; };
-		9E922D832BAED8F000ECD055 /* InfectionSpreadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */; };
 		9E922D892BAF8E1000ECD055 /* SimulationEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */; };
 		9E922D8C2BAF950B00ECD055 /* SimulationEndModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */; };
 /* End PBXBuildFile section */
@@ -87,7 +86,6 @@
 		9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCellViewModel.swift; sourceTree = "<group>"; };
 		9E4629382BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpidemicOverallStatistic.swift; sourceTree = "<group>"; };
 		9E74E5D22BB1031B0092395F /* MatrixManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixManger.swift; sourceTree = "<group>"; };
-		9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfectionSpreadManager.swift; sourceTree = "<group>"; };
 		9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEndView.swift; sourceTree = "<group>"; };
 		9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEndModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -282,7 +280,6 @@
 		9E922D812BAED8DA00ECD055 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -381,7 +378,6 @@
 				9E4629242BADC98D00E0F98B /* AppImage.swift in Sources */,
 				9E46290B2BAD8B4800E0F98B /* VKView.swift in Sources */,
 				9E4628FB2BAD7C6000E0F98B /* DashboardRouter.swift in Sources */,
-				9E922D832BAED8F000ECD055 /* InfectionSpreadManager.swift in Sources */,
 				9E4629182BAD9CD600E0F98B /* VKButton.swift in Sources */,
 				9E4629262BADCF4400E0F98B /* VKImageWithText.swift in Sources */,
 				9E4629092BAD8A5400E0F98B /* VKLabel.swift in Sources */,
