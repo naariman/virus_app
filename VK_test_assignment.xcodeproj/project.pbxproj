@@ -43,6 +43,7 @@
 		9E4629342BAE0CFC00E0F98B /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */; };
 		9E4629372BAE163F00E0F98B /* GeneralCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */; };
 		9E4629392BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E4629382BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift */; };
+		9E74E5D32BB1031B0092395F /* MatrixManger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E74E5D22BB1031B0092395F /* MatrixManger.swift */; };
 		9E922D832BAED8F000ECD055 /* InfectionSpreadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */; };
 		9E922D892BAF8E1000ECD055 /* SimulationEndView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */; };
 		9E922D8C2BAF950B00ECD055 /* SimulationEndModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */; };
@@ -85,6 +86,7 @@
 		9E4629332BAE0CFC00E0F98B /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		9E4629362BAE163F00E0F98B /* GeneralCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralCellViewModel.swift; sourceTree = "<group>"; };
 		9E4629382BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpidemicOverallStatistic.swift; sourceTree = "<group>"; };
+		9E74E5D22BB1031B0092395F /* MatrixManger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatrixManger.swift; sourceTree = "<group>"; };
 		9E922D822BAED8F000ECD055 /* InfectionSpreadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfectionSpreadManager.swift; sourceTree = "<group>"; };
 		9E922D882BAF8E1000ECD055 /* SimulationEndView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEndView.swift; sourceTree = "<group>"; };
 		9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimulationEndModel.swift; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 			isa = PBXGroup;
 			children = (
 				9E46291D2BADBFEA00E0F98B /* UIHelper.swift */,
+				9E74E5D22BB1031B0092395F /* MatrixManger.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -369,6 +372,7 @@
 				9E4628F32BAD7C5800E0F98B /* DataCollectionProtocols.swift in Sources */,
 				9E4629392BAE2DBA00E0F98B /* EpidemicOverallStatistic.swift in Sources */,
 				9E4629372BAE163F00E0F98B /* GeneralCellViewModel.swift in Sources */,
+				9E74E5D32BB1031B0092395F /* MatrixManger.swift in Sources */,
 				9E4629342BAE0CFC00E0F98B /* UICollectionView+Extension.swift in Sources */,
 				9E46292D2BAE00EB00E0F98B /* ZoomButtonsView.swift in Sources */,
 				9E4628FA2BAD7C6000E0F98B /* DashboardPresenter.swift in Sources */,
