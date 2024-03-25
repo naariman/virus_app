@@ -26,6 +26,7 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     private var timer: Timer?
     private var totalTimer: Timer?
     private var seconds = 0
+    private var isEndCalled = false
     
     let col: Int
     let row: Int
@@ -73,7 +74,7 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     }
     
 }
-// MARK: -
+
 extension DashboardPresenter {
     func select(at indexPath: IndexPath) {
         if isFirstSelection {
@@ -87,6 +88,10 @@ extension DashboardPresenter {
         )
         tapAmount += 1
     }
+}
+
+// MARK: - Spread logic
+private extension DashboardPresenter {
     
     func infectionProcess(
         at point: (row: Int, col: Int),
@@ -120,7 +125,7 @@ extension DashboardPresenter {
         }
     }
     
-    private func spreadInfection(
+    func spreadInfection(
         at point: (row: Int, col: Int),
         withInfectionFactor infectionFactor: Int
     ) {
@@ -135,31 +140,32 @@ extension DashboardPresenter {
         }
         
         var numInfected = Int.random(
-            in: 0...min(infectionFactor, neighbors.count
-                       )
+            in: 0...min(
+                infectionFactor, neighbors.count
+            )
         )
         neighbors.shuffle()
         
-        for neighbor in neighbors {
-            if numInfected > 0 {
-                localQueue.async { [self] in
-                    DispatchQueue.main.async {
-                        if self.matrix[neighbor.row][neighbor.col] == false {
-                            self.matrix[neighbor.row][neighbor.col] = true
-                            
-                            self.infectedCount += 1
-                            self.uninfectedCount -= 1
-                        }
+        neighbors.forEach { neighbor in
+            guard numInfected > 0 else {
+                return
+            }
+
+            localQueue.async { [self] in
+                DispatchQueue.main.async {
+                    if !self.matrix[neighbor.row][neighbor.col] {
+                        self.matrix[neighbor.row][neighbor.col] = true
+                        
+                        self.infectedCount += 1
+                        self.uninfectedCount -= 1
                     }
                 }
-                numInfected -= 1
-            } else {
-                break
             }
+            numInfected -= 1
         }
     }
     
-    private func getInfectedPoints() -> [(row: Int, col: Int)] {
+    func getInfectedPoints() -> [(row: Int, col: Int)] {
         var infectedPoints = [(row: Int, col: Int)]()
         for row in 0..<matrix.count {
             for col in 0..<matrix[0].count {
@@ -177,9 +183,9 @@ private extension DashboardPresenter {
     func updateStatisticView() {
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
-            if self.uninfectedCount == 0 {
+            if self.uninfectedCount == 0 && !self.isEndCalled {
                 self.end()
-                self.stopTimers()
+                self.isEndCalled = true
             }
             
             self.view?.updateMainStatistic(
