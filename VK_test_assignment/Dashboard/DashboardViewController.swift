@@ -28,7 +28,7 @@ final class DashboardViewController: UIViewController {
     
     lazy private var collectionView: UICollectionView = {
         let layout: UICollectionViewFlowLayout = .init()
-        layout.scrollDirection = .horizontal
+        layout.scrollDirection = .vertical
         layout.minimumInteritemSpacing = 0
         layout.estimatedItemSize = CGSize(width: Constants.itemSize, height: Constants.itemSize)
 //        layout.minimumLineSpacing = Constants.itemSpacing

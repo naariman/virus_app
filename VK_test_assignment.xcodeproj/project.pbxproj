@@ -181,7 +181,6 @@
 		9E4628FF2BAD80D400E0F98B /* Core */ = {
 			isa = PBXGroup;
 			children = (
-				9E922D812BAED8DA00ECD055 /* Services */,
 				9E4629292BADF26A00E0F98B /* Animations */,
 				9E4629222BADC98200E0F98B /* AppImage */,
 				9E46291C2BADBFDA00E0F98B /* Helper */,
@@ -275,13 +274,6 @@
 				9E922D8B2BAF950B00ECD055 /* SimulationEndModel.swift */,
 			);
 			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		9E922D812BAED8DA00ECD055 /* Services */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

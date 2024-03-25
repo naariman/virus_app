@@ -63,6 +63,7 @@ extension DataCollectionPresenter: DataCollectionPresenterProtocol {
 }
 
 private extension DataCollectionPresenter {
+    
     func observeFieldsCondition() {
         if groupSize != nil,
            infectionFactor != nil,
