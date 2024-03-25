@@ -1,3 +1,4 @@
+# Все еще в процессе, закончу 27 го
 # A simulator of the spread of the virus.
 iOS is an application that visualizes the spread of infection in a group of people. <br/>
 A test assignment has been done for VK Internship. <br/>
