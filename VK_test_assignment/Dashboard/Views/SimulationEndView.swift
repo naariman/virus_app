@@ -59,8 +59,6 @@ final class SimulationEndView: VKView {
         font: .systemFont(ofSize: 12, weight: .semibold),
         color: .txt
     )
-    
-    
 
     private let continueButton: VKButton = .init()
     
