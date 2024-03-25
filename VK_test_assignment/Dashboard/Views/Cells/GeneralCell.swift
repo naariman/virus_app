@@ -36,8 +36,12 @@ final class GeneralCell: UICollectionViewCell,
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(entity: EntityViewModel) {
-        imageView.image = entity.icon
+//    func configure(entity: EntityViewModel) {
+//        imageView.image =  ? AppImage.zombie.uiImage ?? UIImage() : AppImage.human.uiImage ?? UIImage()
+//    }
+    
+    func configure(bool: Bool) {
+        imageView.image = bool ? AppImage.zombie.uiImage ?? UIImage() : AppImage.human.uiImage ?? UIImage()
     }
     
     func updateConstraints(with size: Int) {

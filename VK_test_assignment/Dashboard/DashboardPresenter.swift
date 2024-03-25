@@ -18,20 +18,29 @@ final class DashboardPresenter: DashboardPresenterProtocol {
     weak private var view: DashboardViewProtocol?
     var interactor: DashboardInteractorProtocol?
     private let router: DashboardWireframeProtocol
+    
     private var isFirstSelection: Bool = true
     private var tapAmount = 0
     private let userInputModel: UserInputModel
-    var entities: [[EntityViewModel]] = [] {
+    var epidemicOverallStatistic: EpidemicOverallStatistic
+    private var timer: Timer?
+    private var totalTimer: Timer?
+    private var seconds = 0
+    
+    let col: Int
+    let row: Int
+    var matrix: [[Bool]] = [] {
         didSet {
             DispatchQueue.main.async {
                 self.view?.update()
             }
         }
     }
-    var epidemicOverallStatistic: EpidemicOverallStatistic
-    private var timer: Timer?
-    private var timerRecalculationInfected: Timer?
-    private var seconds = 0
+    private let timeInterval: Double
+    private let localQueue = DispatchQueue(label: "localQueue")
+    private var infectedCount = 0
+    private var uninfectedCount: Int
+    private var infectionFactor: Int
     
     init(
         interface: DashboardViewProtocol,
@@ -46,39 +55,24 @@ final class DashboardPresenter: DashboardPresenterProtocol {
         epidemicOverallStatistic = .init(
             uninfectedCount: model.groupSize
         )
+        
+        self.uninfectedCount = model.groupSize
+        let c = MatrixManager.createMatrix(for: userInputModel.groupSize)[0]
+        let r = MatrixManager.createMatrix(for: userInputModel.groupSize)[1]
+        self.col = c
+        self.row = r
+        self.matrix = Array(repeating: Array(repeating: false, count: r), count: c)
+        self.infectionFactor = model.infectionFactor
+        self.timeInterval = Double(model.recalculationInfected)
     }
     
     func viewDidLoad() {
         view?.configureStatisticsView(
             with: epidemicOverallStatistic
         )
-        entitiesInitialProcess()
     }
     
 }
-
-// MARK: - Init
-private extension DashboardPresenter {
-    func entitiesInitialProcess() {
-        let groupSize = userInputModel.groupSize
-        let numOfSections = Int(ceil(sqrt(Double(groupSize))))
-        let numOfRows = Int(ceil(Double(groupSize) / Double(numOfSections)))
-        
-        var currentGroupIndex = 0
-        for _ in 0..<numOfSections {
-            var rowsInSection: [EntityViewModel] = []
-            for _ in 0..<numOfRows {
-                if currentGroupIndex < groupSize {
-                    let entity = EntityViewModel(type: .uninfected)
-                    rowsInSection.append(entity)
-                    currentGroupIndex += 1
-                }
-            }
-            entities.append(rowsInSection)
-        }
-    }
-}
-
 // MARK: -
 extension DashboardPresenter {
     func select(at indexPath: IndexPath) {
@@ -87,96 +81,118 @@ extension DashboardPresenter {
             isFirstSelection = false
         }
         
-        let selectedEntity = entities[indexPath.section][indexPath.item]
-        
-        guard selectedEntity.type == .uninfected else {
-            return
-        }
-        
+        infectionProcess(
+            at: (indexPath.item, indexPath.section),
+            withInfectionFactor: infectionFactor
+        )
         tapAmount += 1
-        epidemicOverallStatistic.uninfectedCount -= 1
-        epidemicOverallStatistic.infectedCount += 1
-        
-        view?.updateMainStatistic(
-            uninfected: epidemicOverallStatistic.uninfectedCount.description,
-            infected: epidemicOverallStatistic.infectedCount.description
-        )
-        
-        entities[indexPath.section][indexPath.item].type = .infected
-        spreadInfection()
-        startSpreadingInfection(every: TimeInterval(userInputModel.recalculationInfected)
-        )
     }
     
-    private func spreadInfection() {
-        DispatchQueue.global().async {
-            var newEntities = self.entities
-            let infectionFactor = self.userInputModel.infectionFactor
-            
-            var infectedCells: [(Int, Int)] = []
-            
-            for i in 0..<self.entities.count {
-                for j in 0..<self.entities[i].count {
-                    if self.entities[i][j].type == .infected {
-                        infectedCells.append((i, j))
-                    }
+    func infectionProcess(
+        at point: (row: Int, col: Int),
+        withInfectionFactor factor: Int
+    ) {
+        matrix[point.col][point.row] = true
+        infectedCount += 1
+        uninfectedCount -= 1
+        
+        timer?.invalidate()
+        
+        timer = Timer.scheduledTimer(
+            withTimeInterval: timeInterval,
+            repeats: true
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            let infected = self.getInfectedPoints()
+            for i in infected {
+                self.spreadInfection(
+                    at: (i.row, i.col),
+                    withInfectionFactor: factor
+                )
+            }
+        }
+        
+        localQueue.asyncAfter(
+            deadline: .now() + timeInterval
+        ) { [weak self] in
+            guard let self = self else { return }
+            self.spreadInfection(at: point, withInfectionFactor: factor)
+        }
+    }
+    
+    private func spreadInfection(
+        at point: (row: Int, col: Int),
+        withInfectionFactor infectionFactor: Int
+    ) {
+        updateStatisticView()
+        var neighbors = [(row: Int, col: Int)]()
+        for row in (point.row - 1)...(point.row + 1) {
+            for col in (point.col - 1)...(point.col + 1) {
+                if row >= 0 && row < matrix.count && col >= 0 && col < matrix[0].count && !(row == point.row && col == point.col) {
+                    neighbors.append((row: row, col: col))
                 }
             }
-            
-            for (i, j) in infectedCells {
-                var infectionCount = 0
-                for m in max(0, i - 1)..<min(self.entities.count, i + 2) {
-                    for n in max(j - 1, 0)..<min(j + 2, self.entities[m].count) {
-                        if !(m == i && n == j) && newEntities.indices.contains(m) && newEntities[m].indices.contains(n) && newEntities[m][n].type == .uninfected {
-                            if infectionCount < infectionFactor {
-                                newEntities[m][n].type = .infected
-                                infectionCount += 1
-                            } else {
-                                break
-                            }
+        }
+        
+        var numInfected = Int.random(
+            in: 0...min(infectionFactor, neighbors.count
+                       )
+        )
+        neighbors.shuffle()
+        
+        for neighbor in neighbors {
+            if numInfected > 0 {
+                localQueue.async { [self] in
+                    DispatchQueue.main.async {
+                        if self.matrix[neighbor.row][neighbor.col] == false {
+                            self.matrix[neighbor.row][neighbor.col] = true
+                            
+                            self.infectedCount += 1
+                            self.uninfectedCount -= 1
                         }
                     }
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self.updateStatisticView(entities: newEntities)
+                numInfected -= 1
+            } else {
+                break
             }
         }
+    }
+    
+    private func getInfectedPoints() -> [(row: Int, col: Int)] {
+        var infectedPoints = [(row: Int, col: Int)]()
+        for row in 0..<matrix.count {
+            for col in 0..<matrix[0].count {
+                if matrix[row][col] {
+                    infectedPoints.append((row: row, col: col))
+                }
+            }
+        }
+        return infectedPoints
     }
 }
 
 // MARK: - Spread calculation process
 private extension DashboardPresenter {
-    func updateStatisticView(entities: [[EntityViewModel]]) {
-        self.entities = entities
-        var uninfectedCount = 0
-        var infectedCount = 0
-        
-        for row in entities {
-            for cell in row {
-                if cell.type == .uninfected {
-                    uninfectedCount += 1
-                } else if cell.type == .infected {
-                    infectedCount += 1
-                }
+    func updateStatisticView() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            if self.uninfectedCount == 0 {
+                self.end()
+                self.stopTimers()
             }
-        }
-        
-        DispatchQueue.main.async {
-                self.view?.updateMainStatistic(
-                    uninfected: uninfectedCount.description,
-                    infected: infectedCount.description
+            
+            self.view?.updateMainStatistic(
+                uninfected: self.uninfectedCount.description,
+                infected: self.infectedCount.description
+            )
+            if self.uninfectedCount != 0 {
+                self.view?.updateProgressView(
+                    Float(self.infectedCount) / Float(self.userInputModel.groupSize)
                 )
-                if uninfectedCount != 0 {
-                    self.view?.updateProgressView(Float(infectedCount) / Float(self.userInputModel.groupSize))
-                } else {
-                    self.view?.updateProgressView(1.0)
-                }
+            } else {
+                self.view?.updateProgressView(1.0)
             }
-        
-        if uninfectedCount == 0 {
-            end()
         }
     }
 }
@@ -184,7 +200,7 @@ private extension DashboardPresenter {
 // MARK: - Timer
 private extension DashboardPresenter {
     func startTimer() {
-        timer = Timer.scheduledTimer(
+        totalTimer = Timer.scheduledTimer(
             timeInterval: 1.0,
             target: self,
             selector: #selector(updateTimer),
@@ -195,27 +211,15 @@ private extension DashboardPresenter {
     
     @objc func updateTimer() {
         seconds += 1
-        view?.updateTimer(with: getSecondsString())
-    }
-    
-    func startSpreadingInfection(every interval: TimeInterval) {
-        timerRecalculationInfected?.invalidate()
-        timerRecalculationInfected = Timer.scheduledTimer(
-            withTimeInterval: interval,
-            repeats: true
-        ) { [weak self] _ in
-            self?.spreadInfection()
-        }
+        view?.updateTimer(with: getTimeFromTimer())
     }
     
     func stopTimers() {
         timer?.invalidate()
-        timerRecalculationInfected?.invalidate()
+        totalTimer?.invalidate()
     }
-}
-
-private extension DashboardPresenter {
-    func getSecondsString() -> String {
+    
+    func getTimeFromTimer() -> String {
         let minutes = seconds / 60
         let secondsValue = seconds % 60
         let timeString = String(
@@ -232,7 +236,7 @@ private extension DashboardPresenter {
         stopTimers()
         let model: SimulationEndModel = .init(
             userInputModel: userInputModel,
-            totalTime: getSecondsString(),
+            totalTime: getTimeFromTimer(),
             tapAmount: tapAmount
         )
         view?.end(with: model)

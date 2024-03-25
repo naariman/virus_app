@@ -31,8 +31,8 @@ final class DashboardViewController: UIViewController {
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 0
         layout.estimatedItemSize = CGSize(width: Constants.itemSize, height: Constants.itemSize)
-        layout.minimumLineSpacing = Constants.itemSpacing
-           layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+//        layout.minimumLineSpacing = Constants.itemSpacing
+//           layout.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
         let collectionView = UICollectionView(
             frame: .zero,
             collectionViewLayout: layout
@@ -136,14 +136,14 @@ extension DashboardViewController: DashboardViewProtocol {
 // MARK: - UICollectionViewDataSource
 extension DashboardViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        presenter?.entities.count ?? 0
+        presenter?.matrix.count ?? 0
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         numberOfItemsInSection section: Int
     ) -> Int {
-        presenter?.entities[section].count ?? 0
+        presenter?.matrix[0].count ?? 0
     }
     
     func collectionView(
@@ -152,7 +152,7 @@ extension DashboardViewController: UICollectionViewDataSource {
     ) -> UICollectionViewCell {
         guard let presenter else { return UICollectionViewCell() }
         let cell: GeneralCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-        cell.configure(entity: presenter.entities[indexPath.section][indexPath.row])
+        cell.configure(bool: presenter.matrix[indexPath.section][indexPath.row])
         return cell
     }
     
