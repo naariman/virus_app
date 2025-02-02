@@ -4,7 +4,6 @@ A test assignment has been done for VK Internship. <br/>
 
 ## Features:
 1) The algorithm for calculating infection.
-2) User friendly UX/UI.
 
 ## Previews: 
 <div align="center">
